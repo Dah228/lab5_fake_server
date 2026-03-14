@@ -1,4 +1,4 @@
-package common.parser;
+package common;
 
 public enum ReturnCode {
     OK,

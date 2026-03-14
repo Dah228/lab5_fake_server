@@ -1,6 +1,6 @@
 package server.collection;
 
-import common.parser.Vehicle;
+import common.Vehicle;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;

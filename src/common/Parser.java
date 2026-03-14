@@ -1,4 +1,4 @@
-package common.parser;
+package common;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

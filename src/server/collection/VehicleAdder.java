@@ -1,11 +1,10 @@
 package server.collection;
 
 
-import common.parser.Vehicle;
-import client.printer.ResponseSender;
+import common.Vehicle;
+import server.message.ResponseSender;
 
 import java.util.List;
-import java.util.Scanner;
 
 import static java.util.Collections.max;
 

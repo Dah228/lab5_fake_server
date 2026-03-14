@@ -1,14 +1,13 @@
 package server.commands;
 
-import common.parser.CommandType;
-import common.parser.Vehicle;
+import common.CommandType;
+import common.Vehicle;
 import server.collection.VehicleSaver;
-import common.parser.ReturnCode;
+import common.ReturnCode;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.util.List;
-import java.util.Scanner;
 
 public class SaveCommand implements Command{
     VehicleSaver vehicleSaver;

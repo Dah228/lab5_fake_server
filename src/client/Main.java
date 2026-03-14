@@ -1,15 +1,15 @@
-package client.mainpart;
+package client;
 
-import common.parser.Invoker;
+import common.Invoker;
 import server.collection.*;
-import common.parser.Parser;
-import common.parser.Vehicle;
+import common.Parser;
+import common.Vehicle;
 import server.commands.CommandsList;
 
 
 
 
-import static common.parser.Vehicle.printVehicle;
+import static common.Vehicle.printVehicle;
 
 public class Main {
     public static void main(String[] arg) {

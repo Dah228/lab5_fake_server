@@ -1,7 +1,7 @@
-package client.mainpart;
+package client;
 
-import common.parser.CommandType;
-import common.parser.Invoker;
+import common.CommandType;
+import common.Invoker;
 import server.commands.Command;
 import server.commands.CommandsList;
 

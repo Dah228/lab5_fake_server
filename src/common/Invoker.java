@@ -1,4 +1,4 @@
-package common.parser;
+package common;
 
 
 import server.commands.Command;
@@ -6,7 +6,6 @@ import server.commands.Command;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 public class Invoker {
 

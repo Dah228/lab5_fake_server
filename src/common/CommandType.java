@@ -1,3 +1,3 @@
-package common.parser;
+package common;
 
 public enum CommandType {NOARGS, WITHARGS, WITHMODEL, WITHARGSMODEL}

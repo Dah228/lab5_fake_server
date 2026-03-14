@@ -1,9 +1,9 @@
-package client.mainpart;
+package client;
 
-import common.parser.FuelType;
-import common.parser.Vehicle;
-import common.parser.VehicleType;
-import client.printer.ResponseSender;
+import common.FuelType;
+import common.Vehicle;
+import common.VehicleType;
+import server.message.ResponseSender;
 //import server.collection.VehicleCollection;
 
 import java.util.Arrays;

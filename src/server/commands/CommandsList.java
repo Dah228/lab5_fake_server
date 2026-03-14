@@ -1,8 +1,8 @@
 package server.commands;
 
-import client.printer.ConsoleResponseSender;
-import client.printer.ResponseSender;
-import common.parser.Invoker;
+import server.message.ConsoleResponseSender;
+import server.message.ResponseSender;
+import common.Invoker;
 import server.collection.*;
 
 import java.util.HashMap;

@@ -26,7 +26,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>client.mainpart.Main</mainClass>
+                            <mainClass>client.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

@@ -1,4 +1,4 @@
-package client.printer;
+package server.message;
 
 public class ConsoleResponseSender implements ResponseSender {
     @Override

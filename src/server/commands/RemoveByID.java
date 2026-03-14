@@ -1,12 +1,11 @@
 package server.commands;
 
-import common.parser.CommandType;
-import common.parser.Vehicle;
+import common.CommandType;
+import common.Vehicle;
 import server.collection.VehicleAdder;
-import common.parser.ReturnCode;
+import common.ReturnCode;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class RemoveByID implements Command{
     VehicleAdder vehicleManager;

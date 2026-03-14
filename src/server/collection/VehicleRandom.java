@@ -1,6 +1,6 @@
 package server.collection;
 
-import common.parser.Vehicle;
+import common.Vehicle;
 
 import java.util.Collections;
 import java.util.Comparator;

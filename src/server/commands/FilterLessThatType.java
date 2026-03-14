@@ -1,14 +1,13 @@
 package server.commands;
 
 
-import common.parser.CommandType;
-import common.parser.Vehicle;
+import common.CommandType;
+import common.Vehicle;
 import server.collection.VehicleManager;
-import common.parser.ReturnCode;
-import common.parser.VehicleType;
+import common.ReturnCode;
+import common.VehicleType;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class FilterLessThatType implements Command{
 

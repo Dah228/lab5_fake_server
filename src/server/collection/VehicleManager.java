@@ -1,9 +1,9 @@
 package server.collection;
 
 
-import common.parser.Vehicle;
-import common.parser.VehicleType;
-import client.printer.ResponseSender;
+import common.Vehicle;
+import common.VehicleType;
+import server.message.ResponseSender;
 
 
 public class VehicleManager {

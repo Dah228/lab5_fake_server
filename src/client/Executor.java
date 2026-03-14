@@ -1,11 +1,11 @@
-package client.mainpart;
+package client;
 
-import client.printer.ConsoleResponseSender;
-import client.printer.ResponseSender;
-import common.parser.CommandType;
-import common.parser.Invoker;
-import common.parser.ReturnCode;
-import common.parser.Vehicle;
+import server.message.ConsoleResponseSender;
+import server.message.ResponseSender;
+import common.CommandType;
+import common.Invoker;
+import common.ReturnCode;
+import common.Vehicle;
 import server.commands.CommandsList;
 
 import java.io.FileInputStream;
