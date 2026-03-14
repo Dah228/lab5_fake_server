@@ -1,6 +1,7 @@
 package server.commands;
 
 import common.CommandType;
+import common.ResponseSender;
 import common.Vehicle;
 import server.collection.VehicleSaver;
 import common.ReturnCode;
@@ -12,9 +13,12 @@ import java.util.List;
 public class SaveCommand implements Command{
     VehicleSaver vehicleSaver;
     private final CommandType type = CommandType.NOARGS;
+    private final ResponseSender responseSender;
 
-    public SaveCommand(VehicleSaver vehicleSaver){
+
+    public SaveCommand(VehicleSaver vehicleSaver, ResponseSender responseSender){
         this.vehicleSaver = vehicleSaver;
+        this.responseSender = responseSender;
     }
 
 @Override
@@ -24,10 +28,10 @@ public class SaveCommand implements Command{
             vehicleSaver.saveToFile();
             return ReturnCode.OK;
         } catch (ParserConfigurationException e) {
-            System.out.println("Нарушена поддержка парсера");
+            responseSender.send("Нарушена поддержка парсера");
             return ReturnCode.FAILED;
         } catch (TransformerException e) {
-            System.out.println("Ошибка записи файла");
+            responseSender.send("Ошибка записи файла");
             return ReturnCode.FAILED;
         }
     }

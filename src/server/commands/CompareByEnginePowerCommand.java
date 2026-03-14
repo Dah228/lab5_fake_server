@@ -1,19 +1,22 @@
 package server.commands;
 
 import common.CommandType;
+import common.ResponseSender;
+import common.ReturnCode;
 import common.Vehicle;
 import server.collection.VehicleManager;
-import common.ReturnCode;
 
 import java.util.List;
 
-public class CompareByEnginePowerCommand implements Command{
+public class CompareByEnginePowerCommand implements Command {
     private final VehicleManager vehicleManager;
     private final CommandType type = CommandType.WITHARGS;
+    private final ResponseSender responseSender;
 
 
-    public CompareByEnginePowerCommand(VehicleManager vehicleCollection) {
+    public CompareByEnginePowerCommand(VehicleManager vehicleCollection, ResponseSender responseSender) {
         this.vehicleManager = vehicleCollection;
+        this.responseSender = responseSender;
     }
 
     @Override
@@ -25,10 +28,10 @@ public class CompareByEnginePowerCommand implements Command{
             Float number = Float.parseFloat(String.valueOf(parameter.get(1)));
             vehicleManager.filterByEnginePower(number);
             return ReturnCode.OK;
-            } catch (IllegalArgumentException e) {
-                if(isLaud) System.out.println("Ошибка: неверный тип! Введите число");
-                return ReturnCode.FAILED;
-            }
+        } catch (IllegalArgumentException e) {
+            if (isLaud) responseSender.send("Ошибка: неверный тип! Введите число");
+            return ReturnCode.FAILED;
+        }
     }
 
 

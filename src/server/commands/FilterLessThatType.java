@@ -1,11 +1,8 @@
 package server.commands;
 
 
-import common.CommandType;
-import common.Vehicle;
+import common.*;
 import server.collection.VehicleManager;
-import common.ReturnCode;
-import common.VehicleType;
 
 import java.util.List;
 
@@ -13,8 +10,11 @@ public class FilterLessThatType implements Command{
 
     private final CommandType type = CommandType.WITHARGS;
     VehicleManager vehicleManager;
-    public FilterLessThatType(VehicleManager vehicleCollection){
+    private final ResponseSender responseSender;
+
+    public FilterLessThatType(VehicleManager vehicleCollection, ResponseSender responseSender){
         this.vehicleManager = vehicleCollection;
+        this.responseSender = responseSender;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class FilterLessThatType implements Command{
             vehicleManager.filterLessThanType(type);
             return ReturnCode.OK;
         } catch (IllegalArgumentException e) {
-            if(isLaud) System.out.println("Ошибка: неверный тип! Доступные: PLANE, HELICOPTER, BOAT, SHIP, HOVERBOARD");
+            if(isLaud) responseSender.send("Ошибка: неверный тип! Доступные: PLANE, HELICOPTER, BOAT, SHIP, HOVERBOARD");
             return ReturnCode.FAILED;
         }
 

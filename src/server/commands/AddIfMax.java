@@ -1,6 +1,7 @@
 package server.commands;
 
 import common.CommandType;
+import common.ResponseSender;
 import common.Vehicle;
 import server.collection.VehicleAdder;
 import common.ReturnCode;
@@ -11,9 +12,12 @@ import java.util.List;
 public class AddIfMax implements Command{
     VehicleAdder vehicleAdder;
     private final CommandType type = CommandType.WITHMODEL;
+    private final ResponseSender responseSender;
 
-    public AddIfMax(VehicleAdder vehicleComaperator){
+
+    public AddIfMax(VehicleAdder vehicleComaperator, ResponseSender responseSender){
         this.vehicleAdder = vehicleComaperator;
+        this.responseSender = responseSender;
     }
 
 
@@ -27,7 +31,7 @@ public class AddIfMax implements Command{
             vehicleAdder.addIfMax(vehicle, isLaud);
             return ReturnCode.OK;
         } catch (IllegalArgumentException e) {
-            System.out.println("Ошибка: неверный тип! Введите число");
+            responseSender.send("Ошибка: неверный тип! Введите число");
             return ReturnCode.FAILED;
         }
     }

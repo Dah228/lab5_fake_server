@@ -11,7 +11,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import common.Vehicle;
-import server.message.ResponseSender;
+import common.ResponseSender;
 
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;

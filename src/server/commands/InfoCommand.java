@@ -1,6 +1,7 @@
 package server.commands;
 
 import common.CommandType;
+import common.ResponseSender;
 import common.Vehicle;
 import server.collection.VehicleManager;
 import common.ReturnCode;
@@ -10,10 +11,13 @@ import java.util.List;
 public class InfoCommand implements Command{
     private final VehicleManager vehicleCollection;
     private final CommandType type = CommandType.NOARGS;
+    private final ResponseSender responseSender;
 
 
-    public InfoCommand(VehicleManager vehicleCollection) {
+
+    public InfoCommand(VehicleManager vehicleCollection, ResponseSender responseSender) {
         this.vehicleCollection = vehicleCollection;
+        this.responseSender = responseSender;
     }
 
     @Override

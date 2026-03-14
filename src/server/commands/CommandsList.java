@@ -1,7 +1,7 @@
 package server.commands;
 
-import server.message.ConsoleResponseSender;
-import server.message.ResponseSender;
+import common.ConsoleResponseSender;
+import common.ResponseSender;
 import common.Invoker;
 import server.collection.*;
 
@@ -25,20 +25,20 @@ public class CommandsList {
     }
 
     private void registratedCommand() {
-        register("clear", new ClearCommand(manager));
-        register("filter_greater_than_engine_power", new CompareByEnginePowerCommand(manager));
-        register("info", new InfoCommand(manager));
+        register("clear", new ClearCommand(manager, responseSender));
+        register("filter_greater_than_engine_power", new CompareByEnginePowerCommand(manager, responseSender));
+        register("info", new InfoCommand(manager, responseSender));
         register("show", new ShowCommand(manager));
-        register("remove_by_id", new RemoveByID(adder));
+        register("remove_by_id", new RemoveByID(adder, responseSender));
         register("print_descending", new PrintDescendingCommand(random));
-        register("save", new SaveCommand(saver));
+        register("save", new SaveCommand(saver, responseSender));
         register("shuffle", new ShuffleCommand(random));
         register("sort", new SortCommand(random));
-        register("filter_less_than_type", new FilterLessThatType(manager));
-        register("add", new AddCommand(adder));
-        register("add_if_max", new AddIfMax(adder));
-        register("update", new UpdateElementID(adder));
-        register("help", new HelpCommand(invoker.getCommands()));
+        register("filter_less_than_type", new FilterLessThatType(manager, responseSender));
+        register("add", new AddCommand(adder, responseSender));
+        register("add_if_max", new AddIfMax(adder, responseSender));
+        register("update", new UpdateElementID(adder, responseSender));
+        register("help", new HelpCommand(invoker.getCommands(),responseSender));
     }
 
     private void register(String name, Command command) {

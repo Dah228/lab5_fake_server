@@ -1,6 +1,7 @@
 package server.commands;
 
 import common.CommandType;
+import common.ResponseSender;
 import common.Vehicle;
 import server.collection.VehicleRandom;
 import common.ReturnCode;
@@ -10,6 +11,8 @@ import java.util.List;
 public class ShuffleCommand implements Command{
     private final VehicleRandom vehicleRandom;
     private final CommandType type = CommandType.NOARGS;
+
+
 
     public ShuffleCommand(VehicleRandom vehicleRandom){
         this.vehicleRandom = vehicleRandom;

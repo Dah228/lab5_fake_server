@@ -1,4 +1,4 @@
-package server.message;
+package common;
 
 public interface ResponseSender {
     void send(String message);

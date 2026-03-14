@@ -11,6 +11,7 @@ public class ShowCommand implements Command {
     private final VehicleManager manager;
     private final CommandType type = CommandType.NOARGS;
 
+
     public ShowCommand(VehicleManager manager) {
         this.manager = manager;
     }

@@ -3,7 +3,7 @@ package server.collection;
 
 import common.Vehicle;
 import common.VehicleType;
-import server.message.ResponseSender;
+import common.ResponseSender;
 
 
 public class VehicleManager {

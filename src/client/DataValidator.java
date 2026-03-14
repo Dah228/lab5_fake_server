@@ -3,7 +3,7 @@ package client;
 import common.FuelType;
 import common.Vehicle;
 import common.VehicleType;
-import server.message.ResponseSender;
+import common.ResponseSender;
 //import server.collection.VehicleCollection;
 
 import java.util.Arrays;
@@ -15,13 +15,11 @@ import java.util.Scanner;
 public class DataValidator {
     Scanner scanner;
     Boolean isLaud;
-    private final ResponseSender responseSender;
 //    private final VehicleCollection vehicleCollection = new VehicleCollection();
 
-    public DataValidator(Scanner scanner, Boolean isLaud, ResponseSender responseSender) {
+    public DataValidator(Scanner scanner, Boolean isLaud) {
         this.scanner = scanner;
         this.isLaud = isLaud;
-        this.responseSender = responseSender;
     }
 
 
@@ -45,15 +43,15 @@ public class DataValidator {
         if (isLaud) {
             // Консольный режим: цикл с повторным запросом
             while (true) {
-                responseSender.send(prompt);
+                System.out.println(prompt);
                 String input = scanner.nextLine().trim();
 
                 try {
                     return parser.apply(input);
                 } catch (IllegalArgumentException e) {
-                    responseSender.send(errorMsg);
+                    System.out.println(errorMsg);
                 } catch (NoSuchElementException e) {
-                    responseSender.send("\n[Ввод прерван, ожидаем новые данные...]");
+                    System.out.println("\n[Ввод прерван, ожидаем новые данные...]");
                 }
             }
         } else {
@@ -67,10 +65,9 @@ public class DataValidator {
                 try {
                     return parser.apply(input);
                 } catch (IllegalArgumentException e) {
-                    throw new IllegalArgumentException(errorMsg + ": '" + input + "'");
+                    System.out.println(errorMsg + ": '" + input + "'");
                 }
             }
-            // Если файл закончился, а значение так и не прочитано
             throw new IllegalArgumentException("Файл закончился: " + prompt);
         }
     }
@@ -140,7 +137,7 @@ public class DataValidator {
 
 
     public Vehicle parseVehicle(Scanner scanner, Boolean isLaud) {
-        DataValidator validator = new DataValidator(scanner, isLaud, responseSender);
+        DataValidator validator = new DataValidator(scanner, isLaud);
         Vehicle veh = new Vehicle();
 
 //        var Id = vehicleCollection.getAllID();

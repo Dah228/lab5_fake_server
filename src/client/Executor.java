@@ -1,7 +1,7 @@
 package client;
 
-import server.message.ConsoleResponseSender;
-import server.message.ResponseSender;
+import common.ConsoleResponseSender;
+import common.ResponseSender;
 import common.CommandType;
 import common.Invoker;
 import common.ReturnCode;
@@ -91,7 +91,7 @@ public class Executor {
             }
 
             if ((type == CommandType.WITHMODEL & args.length == 1) || (type == CommandType.WITHARGSMODEL & args.length == 2)) {
-                DataValidator validator = new DataValidator(scanner, !(stream instanceof FileInputStream), responseSender);
+                DataValidator validator = new DataValidator(scanner, !(stream instanceof FileInputStream));
 
                 try {
                     Vehicle vehicle = validator.parseVehicle(scanner, !(stream instanceof FileInputStream));

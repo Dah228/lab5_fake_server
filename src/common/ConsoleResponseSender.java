@@ -1,4 +1,4 @@
-package server.message;
+package common;
 
 public class ConsoleResponseSender implements ResponseSender {
     @Override

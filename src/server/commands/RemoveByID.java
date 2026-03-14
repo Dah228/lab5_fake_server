@@ -1,6 +1,7 @@
 package server.commands;
 
 import common.CommandType;
+import common.ResponseSender;
 import common.Vehicle;
 import server.collection.VehicleAdder;
 import common.ReturnCode;
@@ -10,9 +11,12 @@ import java.util.List;
 public class RemoveByID implements Command{
     VehicleAdder vehicleManager;
     private final CommandType type = CommandType.WITHARGS;
+    private final ResponseSender responseSender;
 
-    public RemoveByID(VehicleAdder vehicleManager){
+
+    public RemoveByID(VehicleAdder vehicleManager, ResponseSender responseSender){
         this.vehicleManager = vehicleManager;
+        this.responseSender = responseSender;
     }
 
     @Override
@@ -21,10 +25,10 @@ public class RemoveByID implements Command{
         try {
             long number = Long.parseLong(args.get(1));
             vehicleManager.rmByID(number, isLaud);
-            if(isLaud) System.out.println("Успешно удален");
+            if(isLaud) responseSender.send("Успешно удален");
             return ReturnCode.OK;
         } catch (IllegalArgumentException e) {
-            if(isLaud) System.out.println("Ошибка: неверный тип! Введите число");
+            if(isLaud) responseSender.send("Ошибка: неверный тип! Введите число");
             return ReturnCode.FAILED;
         }
     }
