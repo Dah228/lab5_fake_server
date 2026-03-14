@@ -23,7 +23,6 @@ public class AllCommands {
     }
 
     private void initializeCommandsFromList(CommandsList commandsList) {
-        // Получаем все команды из commandsList
         Map<String, Command> allCommands = commandsList.getCommandList();
 
         for (Map.Entry<String, Command> entry : allCommands.entrySet()) {

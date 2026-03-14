@@ -1,12 +1,11 @@
 package server.collection;
 
 
-import common.Vehicle;
 import common.ResponseSender;
+import common.Vehicle;
 
 import java.util.List;
-
-import static java.util.Collections.max;
+import java.util.stream.Collectors;
 
 public class VehicleAdder {
     private final VehicleCollection collection;
@@ -22,7 +21,7 @@ public class VehicleAdder {
     public void updateElementByID(long id, Vehicle vehicle, Boolean isLaud) {
         if (collection.getVehicleByID(id) != null) {
             vehicle.setId(id);
-            collection.replaceVehicle(id,vehicle);
+            collection.replaceVehicle(id, vehicle);
             if (isLaud) responseSender.send("Элемент обновлен");
         }
     }
@@ -38,8 +37,6 @@ public class VehicleAdder {
         if (isLaud) responseSender.send("Элемент удален");
 
     }
-
-
 
 
     public void addElement(Vehicle vehicle, Boolean isLaud) {
@@ -59,5 +56,30 @@ public class VehicleAdder {
 
     }
 
+    public void groupByParam(List<String> args, ResponseSender responseSender) {
+        ValidateParams validator = new ValidateParams(args);
+        GroupingField field = validator.getGroupingField();
 
+        // Фильтруем по searchValue
+        List<Vehicle> result = collection.getVehicles().stream()
+                .filter(v -> {
+                    Object fieldValue = field.extractor().apply(v);
+                    return fieldValue.equals(field.searchValue());
+                })
+                .collect(Collectors.toList());
+
+// Выводим
+        if (result.isEmpty()) {
+            responseSender.send("Ничего не найдено");
+        } else {
+            responseSender.send("\nНайдено элементов: " + result.size());
+            responseSender.send("-------------------------------");
+            for (Vehicle v : result) {
+                Vehicle.printVehicle(v);
+            }
+        }
+
+
+
+    }
 }

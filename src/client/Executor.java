@@ -57,7 +57,7 @@ public class Executor {
 //                    return ReturnCode.FAILED;
                 }
 
-                String fileName = args[1].trim();
+//                String fileName = args[1].trim();
 
 //                if (!calledFiles.isEmpty()&& calledFiles.contains(fileName)) {
 //                    System.out.println("Обнаружена рекурсия! Файл уже вызван: " + fileName);
@@ -86,6 +86,10 @@ public class Executor {
 
 
             if ((type == CommandType.NOARGS & args.length == 1)||(type == CommandType.WITHARGS & args.length == 2)){
+                invoker.executeCommand(commandName, List.of(args), null, !(stream instanceof FileInputStream));
+                continue;
+            }
+            if (type == CommandType.DETECTPARAM & args.length >= 2) {
                 invoker.executeCommand(commandName, List.of(args), null, !(stream instanceof FileInputStream));
                 continue;
             }

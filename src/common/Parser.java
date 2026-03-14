@@ -51,7 +51,12 @@ public class Parser {
 
                 v.setEnginePower(Float.parseFloat(e.getElementsByTagName("enginePower").item(0).getTextContent()));
                 v.setDistanceTravelled(Float.parseFloat(e.getElementsByTagName("distanceTravelled").item(0).getTextContent()));
-                v.setType(VehicleType.valueOf(e.getElementsByTagName("type").item(0).getTextContent().toUpperCase()));
+                var typeNode = e.getElementsByTagName("type").item(0);
+                if (typeNode != null) {
+                    v.setType(VehicleType.valueOf(typeNode.getTextContent().toUpperCase()));
+                } else {
+                    v.setType(null);
+                }
                 v.setFuelType(FuelType.valueOf(e.getElementsByTagName("fuelType").item(0).getTextContent().toUpperCase()));
                 if (v.getName() == null || v.getName().trim().isEmpty() || v.getCoordinates() == null || v.getCoordinates().toString().trim().isEmpty() || v.getCoordinates().y <= -668F || v.getEnginePower() <= 0 || v.getDistanceTravelled() <= 0) {
                     throw new NullPointerException();

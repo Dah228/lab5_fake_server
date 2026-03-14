@@ -39,6 +39,7 @@ public class CommandsList {
         register("add_if_max", new AddIfMax(adder, responseSender));
         register("update", new UpdateElementID(adder, responseSender));
         register("help", new HelpCommand(invoker.getCommands(),responseSender));
+        register("group_by", new GroupByCommand(adder,responseSender));
     }
 
     private void register(String name, Command command) {

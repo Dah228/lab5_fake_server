@@ -1,3 +1,3 @@
 package common;
 
-public enum CommandType {NOARGS, WITHARGS, WITHMODEL, WITHARGSMODEL}
+public enum CommandType {NOARGS, WITHARGS, WITHMODEL, WITHARGSMODEL, DETECTPARAM}

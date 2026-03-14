@@ -58989,19 +58989,20 @@
     <vehicle id="4998">
         <name>Iron Eagle-567</name>
         <coordinates>
-            <x>-6956</x>
-            <y>-1424.3</y>
+            <x>50</x>
+            <y>50</y>
         </coordinates>
         <creationDate>2029-04-03</creationDate>
         <enginePower>26300.8</enginePower>
         <distanceTravelled>648246.5</distanceTravelled>
+        <type>boat</type>
         <fuelType>NUCLEAR</fuelType>
     </vehicle>
     <vehicle id="4999">
         <name>Moon Rover-478</name>
         <coordinates>
-            <x>-8356</x>
-            <y>4327.0</y>
+            <x>-50</x>
+            <y>50</y>
         </coordinates>
         <creationDate>2031-05-06</creationDate>
         <enginePower>57941.1</enginePower>
@@ -59012,8 +59013,8 @@
     <vehicle id="5000">
         <name>Wind Runner-736</name>
         <coordinates>
-            <x>-9477</x>
-            <y>-8468.4</y>
+            <x>50</x>
+            <y>-50</y>
         </coordinates>
         <creationDate>2032-11-25</creationDate>
         <enginePower>45300.1</enginePower>
