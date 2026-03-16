@@ -11,13 +11,11 @@ import java.util.List;
 public class InfoCommand implements Command{
     private final VehicleManager vehicleCollection;
     private final CommandType type = CommandType.NOARGS;
-    private final ResponseSender responseSender;
 
 
 
-    public InfoCommand(VehicleManager vehicleCollection, ResponseSender responseSender) {
+    public InfoCommand(VehicleManager vehicleCollection) {
         this.vehicleCollection = vehicleCollection;
-        this.responseSender = responseSender;
     }
 
     @Override

@@ -4,14 +4,9 @@ import common.CommandType;
 import common.ResponseSender;
 import common.ReturnCode;
 import common.Vehicle;
-import server.collection.GroupingField;
-import server.collection.ValidateParams;
 import server.collection.VehicleAdder;
-import server.collection.VehicleManager;
-
 import java.util.List;
-import java.util.TreeMap;
-import java.util.stream.Collectors;
+
 
 public class GroupByCommand implements Command{
     private final VehicleAdder vehicleAdder;

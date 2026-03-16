@@ -5,7 +5,7 @@ import common.ResponseSender;
 import common.Vehicle;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 public class VehicleAdder {
     private final VehicleCollection collection;
@@ -28,6 +28,7 @@ public class VehicleAdder {
 
 
     public void rmByID(long id, Boolean isLaud) {
+        //noinspection rawtypes
         List arr = collection.getAllID();
         for (Object i : arr) {
             if ((long) i == id) {
@@ -66,7 +67,7 @@ public class VehicleAdder {
                     Object fieldValue = field.extractor().apply(v);
                     return fieldValue.equals(field.searchValue());
                 })
-                .collect(Collectors.toList());
+                .toList();
 
 // Выводим
         if (result.isEmpty()) {

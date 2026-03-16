@@ -1,23 +1,18 @@
 package client;
 
 import common.CommandType;
-import common.Invoker;
 import server.commands.Command;
 import server.commands.CommandsList;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
+
 
 public class AllCommands {
 
     private final Map<String, CommandType> commandsInfo;
-    private final CommandsList commandsList;
-    private final Invoker invoker;
 
     public AllCommands(CommandsList commandsList) {
-        this.commandsList = commandsList;
-        this.invoker = commandsList.getInvoker();
         this.commandsInfo = new HashMap<>();
         initializeCommandsFromList(commandsList);
     }
@@ -37,21 +32,8 @@ public class AllCommands {
         }
     }
 
-    // Getter для CommandsList
-    public CommandsList getCommandsList() {
-        return commandsList;
-    }
-
-
     public CommandType getCommandType(String commandName) {
         return commandsInfo.get(commandName);
     }
 
-    public Set<String> getAllCommandNames() {
-        return commandsInfo.keySet();
-    }
-
-    public boolean commandExists(String commandName) {
-        return commandsInfo.containsKey(commandName);
-    }
 }

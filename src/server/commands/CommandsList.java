@@ -27,7 +27,7 @@ public class CommandsList {
     private void registratedCommand() {
         register("clear", new ClearCommand(manager, responseSender));
         register("filter_greater_than_engine_power", new CompareByEnginePowerCommand(manager, responseSender));
-        register("info", new InfoCommand(manager, responseSender));
+        register("info", new InfoCommand(manager));
         register("show", new ShowCommand(manager));
         register("remove_by_id", new RemoveByID(adder, responseSender));
         register("print_descending", new PrintDescendingCommand(random));

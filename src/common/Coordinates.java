@@ -1,6 +1,6 @@
 package common;
 
-import static java.lang.Math.pow;
+
 import static java.lang.Math.sqrt;
 
 public class Coordinates implements Comparable<Coordinates> {
@@ -14,9 +14,7 @@ public class Coordinates implements Comparable<Coordinates> {
         return this.y;
     }
 
-    public Coordinates getCoords(){
-        return this;
-    }
+
 
 public void setCoord(int x, float y){
         this.x = x;
@@ -31,25 +29,14 @@ public void setCoord(int x, float y){
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (!(obj instanceof Coordinates)) return false;
-        Coordinates that = (Coordinates) obj;
+        if (!(obj instanceof Coordinates that)) return false;
 
-        double thisDist = sqrt(this.x * this.x + this.y * this.y);
+        double thisDist;
+        thisDist = sqrt(this.x * this.x + this.y * this.y);
         double thatDist = sqrt(that.x * that.x + that.y * that.y);
 
         return Math.abs(thisDist - thatDist) < 0.001;
     }
 
-    @Override
-    public int hashCode() {
-        int result = x;
-        result = 31 * result + (y != +0.0f ? Float.floatToIntBits(y) : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "(" + x + ", " + y + ")";
-    }
 }
 

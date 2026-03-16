@@ -3,7 +3,7 @@ package client;
 import common.FuelType;
 import common.Vehicle;
 import common.VehicleType;
-import common.ResponseSender;
+
 //import server.collection.VehicleCollection;
 
 import java.util.Arrays;
@@ -29,7 +29,6 @@ public class DataValidator {
      * @param prompt   текст подсказки
      * @param isLaud   режим (true = консоль с циклом, false = файл с одной попыткой)
      * @param parser   функция, которая превращает String в T или бросает IllegalArgumentException
-     * @param emptyMsg сообщение, если введена пустая строка (для консоли)
      * @param <T>      тип возвращаемого значения
      * @return валидное значение типа T
      */
@@ -37,7 +36,6 @@ public class DataValidator {
             String prompt,
             Boolean isLaud,
             java.util.function.Function<String, T> parser,
-            String emptyMsg,
             String errorMsg
     ) {
         if (isLaud) {
@@ -76,7 +74,6 @@ public class DataValidator {
         return readValidatedInput(
                 prompt, isLaud,
                 Integer::valueOf,
-                "Поле не может быть пустым!",
                 "Ошибка ввода, ожидалось целое число"
         );
     }
@@ -89,7 +86,6 @@ public class DataValidator {
                     if (val <= min) throw new IllegalArgumentException("Некорректное значение!");
                     return val;
                 },
-                "Поле не может быть пустым!",
                 "Ошибка ввода, ожидалось число"
         );
     }
@@ -98,7 +94,6 @@ public class DataValidator {
         return readValidatedInput(
                 prompt, isLaud,
                 s -> s.isEmpty() ? null : VehicleType.valueOf(s.toUpperCase()),
-                "Введите тип или пустую строку для пропуска",
                 "Неверный тип! Доступны: " + Arrays.toString(VehicleType.values())
         );
     }
@@ -107,7 +102,6 @@ public class DataValidator {
         return readValidatedInput(
                 prompt, isLaud,
                 s -> FuelType.valueOf(s.toUpperCase()),
-                "Тип топлива не может быть пустым!",
                 "Неверный тип топлива! Доступны: " + Arrays.toString(FuelType.values())
         );
     }
@@ -130,7 +124,6 @@ public class DataValidator {
                     }
                     return s;
                 },
-                "Имя не может быть пустым!",
                 "Имя содержит недопустимые символы для XML: < > & \" '"
         );
     }

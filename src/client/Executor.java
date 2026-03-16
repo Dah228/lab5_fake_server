@@ -1,7 +1,8 @@
 package client;
 
-import common.ConsoleResponseSender;
-import common.ResponseSender;
+//import common.ConsoleResponseSender;
+
+//import common.ResponseSender;
 import common.CommandType;
 import common.Invoker;
 import common.ReturnCode;
@@ -30,7 +31,7 @@ public class Executor {
 
         CommandsList commandsList = new CommandsList();
         AllCommands allCommands = new AllCommands(commandsList);
-        ResponseSender responseSender = new ConsoleResponseSender();
+//        ResponseSender responseSender = new ConsoleResponseSender();
 
 
         Scanner scanner = new Scanner(stream);

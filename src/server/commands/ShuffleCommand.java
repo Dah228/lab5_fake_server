@@ -1,7 +1,6 @@
 package server.commands;
 
 import common.CommandType;
-import common.ResponseSender;
 import common.Vehicle;
 import server.collection.VehicleRandom;
 import common.ReturnCode;

@@ -51,9 +51,6 @@ import java.util.List;
             return id;
         }
 
-//        public void changeID(long previd, long newid) {
-//                getVehicleByID(newid).setId(previd);
-//        }
 
 
         public Vehicle getVehicleByID(long id){
