@@ -1,4 +1,6 @@
 package common;
 
-public enum VehicleType { BOAT, HELICOPTER, HOVERBOARD, PLANE, SHIP  }
+import java.io.Serializable;
+
+public enum VehicleType implements Serializable { BOAT, HELICOPTER, HOVERBOARD, PLANE, SHIP  }
 

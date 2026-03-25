@@ -1,3 +1,5 @@
 package common;
 
-public enum CommandType {NOARGS, WITHARGS, WITHMODEL, WITHARGSMODEL, DETECTPARAM}
+import java.io.Serializable;
+
+public enum CommandType implements Serializable {NOARGS, WITHARGS, WITHMODEL, WITHARGSMODEL, DETECTPARAM}

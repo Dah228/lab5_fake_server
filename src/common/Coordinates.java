@@ -1,9 +1,11 @@
 package common;
 
 
+import java.io.Serializable;
+
 import static java.lang.Math.sqrt;
 
-public class Coordinates implements Comparable<Coordinates> {
+public class Coordinates implements Comparable<Coordinates>, Serializable {
     int x;
     float y;
 

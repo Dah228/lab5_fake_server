@@ -1,35 +1,30 @@
 package server.commands;
 
 import common.CommandType;
-import common.ResponseSender;
 import common.ReturnCode;
-import common.Vehicle;
-
-import java.util.List;
+import server.CommandParams;
 import java.util.Map;
 
 
 public class HelpCommand implements Command {
     private final Map<String, Command> allCommands;
     private final CommandType type = CommandType.NOARGS;
-    private final ResponseSender responseSender;
 
 
-    public HelpCommand(Map<String, Command> allCommands, ResponseSender responseSender){
+    public HelpCommand(Map<String, Command> allCommands){
         this.allCommands = allCommands;
-        this.responseSender = responseSender;
     }
 
     @Override
-    public ReturnCode execute(List<String> args, Vehicle vehicle, Boolean isLaud) {
-        if (args.size() != 1) return ReturnCode.FAILED;
-        responseSender.send("=== Доступные команды ===");
+    public ReturnCode execute(CommandParams params) {
+        if (params.args().size() != 1) return ReturnCode.FAILED;
+        params.responseSender().send("=== Доступные команды ===");
         for (Map.Entry<String, Command> entry : allCommands.entrySet()) {
             String name = entry.getKey();
             String description = entry.getValue().getDescription();
-            responseSender.send(name + " - " + description);
+            params.responseSender().send(name + " - " + description);
         }
-        responseSender.send("=========================");
+        params.responseSender().send("=========================");
         return ReturnCode.OK;
     }
 

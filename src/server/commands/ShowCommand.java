@@ -2,10 +2,13 @@ package server.commands;
 
 import common.CommandType;
 import common.Vehicle;
+import server.CommandParams;
 import server.collection.VehicleManager;
 import common.ReturnCode;
 
 import java.util.List;
+
+import static server.VehicleFormatter.printVehicleList;
 
 public class ShowCommand implements Command {
     private final VehicleManager manager;
@@ -17,10 +20,10 @@ public class ShowCommand implements Command {
     }
 
     @Override
-    public ReturnCode execute(List<String> args, Vehicle vehicle, Boolean isLaud) {
-        if (args.size() != 1) return ReturnCode.FAILED;
+    public ReturnCode execute(CommandParams params) {
+        if (params.args().size() != 1) return ReturnCode.FAILED;
         else {
-            manager.showCollection();
+            printVehicleList(manager.showCollection(),params.responseSender());
             return ReturnCode.OK;
         }
     }

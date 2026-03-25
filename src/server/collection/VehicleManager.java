@@ -3,53 +3,55 @@ package server.collection;
 
 import common.Vehicle;
 import common.VehicleType;
-import common.ResponseSender;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class VehicleManager {
     private final VehicleCollection collection;
-    private final ResponseSender responseSender;  // Добавляем поле
 
     // Конструктор с внедрением зависимости
-    public VehicleManager(VehicleCollection collection, ResponseSender responseSender) {
+    public VehicleManager(VehicleCollection collection) {
         this.collection = collection;
-        this.responseSender = responseSender;
     }
 
     // Логика вывода всей коллекции
-    public void showCollection() {
-        for (Vehicle v : collection.getVehicles()) {
-            Vehicle.printVehicle(v);
-        }
+    public ArrayList<Vehicle> showCollection() {
+        return collection.getVehicles();
     }
 
+
     // Логика информации
-    public void getInfo() {
-        responseSender.send("Размер коллекции : " + collection.size());
-        responseSender.send("Тип коллекции : " + collection.getVehicles().getClass().getName());
-        responseSender.send("Дата инициализации : " + collection.getInitTime());
-        responseSender.send("Список имен : ");
+    public HashMap<String, String> getInfo() {
+        HashMap<String, String> paramList = new HashMap();
+        paramList.put("Размер коллекции : ", String.valueOf(collection.size()));
+        paramList.put("Тип коллекции : ", collection.getVehicles().getClass().getName());
+        paramList.put("Дата инициализации : ", String.valueOf(collection.getInitTime()));
         float summa = 0;
         for (Vehicle v : collection.getVehicles()) {
             summa += v.getEnginePower();
-            responseSender.send(v.getName() + "   ");
         }
-        responseSender.send("-----------------");
-        responseSender.send("Общая мощность двигателей : " + summa);
+        paramList.put("Общая мощность двигателей : ", String.valueOf(summa));
+
         if (!collection.isEmpty()) {
-            responseSender.send("Средняя мощность двигателя : " + (summa / collection.size()));
+            paramList.put("Средняя мощность двигателя : ", String.valueOf(summa / collection.size()));
         } else {
-            responseSender.send("Средняя мощность двигателя : 0 (коллекция пуста)");
+            paramList.put("Средняя мощность двигателя", "0 (коллекция пуста)");
         }
+
+        return paramList;
     }
 
     // Логика фильтрации
-    public void filterByEnginePower(Float power) {
+    public ArrayList<Vehicle> filterByEnginePower(Float power) {
+        ArrayList<Vehicle> filteredByEngine = new ArrayList<>();
         for (Vehicle v : collection.getVehicles()) {
             if (v.getEnginePower() >= power) {
-                Vehicle.printVehicle(v);
+                filteredByEngine.add(v);
             }
         }
+        return filteredByEngine;
     }
 
     // Логика очистки
@@ -58,12 +60,14 @@ public class VehicleManager {
     }
 
 
-    public void filterLessThanType(VehicleType type) {
+    public ArrayList<Vehicle> filterLessThanType(VehicleType type) {
+        ArrayList<Vehicle> filteredByEngine = new ArrayList<>();
         for (Vehicle v : collection.getVehicles()) {
             if (v.getType().compareTo(type) < 0) {
-                Vehicle.printVehicle(v);
+                filteredByEngine.add(v);
             }
         }
+        return filteredByEngine;
     }
 
 }

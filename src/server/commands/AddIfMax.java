@@ -3,6 +3,7 @@ package server.commands;
 import common.CommandType;
 import common.ResponseSender;
 import common.Vehicle;
+import server.CommandParams;
 import server.collection.VehicleAdder;
 import common.ReturnCode;
 
@@ -12,26 +13,25 @@ import java.util.List;
 public class AddIfMax implements Command{
     VehicleAdder vehicleAdder;
     private final CommandType type = CommandType.WITHMODEL;
-    private final ResponseSender responseSender;
 
 
-    public AddIfMax(VehicleAdder vehicleComaperator, ResponseSender responseSender){
+    public AddIfMax(VehicleAdder vehicleComaperator){
         this.vehicleAdder = vehicleComaperator;
-        this.responseSender = responseSender;
     }
 
 
     @Override
-    public ReturnCode execute(List<String> args, Vehicle vehicle, Boolean isLaud){
-        if (args.size() != 1){
+    public ReturnCode execute(CommandParams params){
+        if (params.args().size() != 1){
             return ReturnCode.FAILED;
         }
 
         try {
-            vehicleAdder.addIfMax(vehicle, isLaud);
+            vehicleAdder.addIfMax(params.vehicle());
+            if (params.isLaud()) params.responseSender().send("У элемента максимальное значение пройденной дистанции. Добавлен.");
             return ReturnCode.OK;
         } catch (IllegalArgumentException e) {
-            responseSender.send("Ошибка: неверный тип! Введите число");
+            params.responseSender().send("Ошибка: неверный тип! Введите число");
             return ReturnCode.FAILED;
         }
     }

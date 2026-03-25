@@ -1,4 +1,4 @@
-package client;
+package server;
 
 import common.CommandType;
 import server.commands.Command;
@@ -36,4 +36,7 @@ public class AllCommands {
         return commandsInfo.get(commandName);
     }
 
+    public Map<String, CommandType> getAll() {
+        return commandsInfo;
+    }
 }

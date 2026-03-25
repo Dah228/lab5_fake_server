@@ -14,7 +14,7 @@ import java.util.List;
             vehicles.add(v);
         }
 
-        public void addList(List<Vehicle> v) {
+        public void addList(ArrayList<Vehicle> v) {
             vehicles.addAll(v);
         }
 
@@ -23,7 +23,7 @@ import java.util.List;
         }
 
         // Методы доступа к данным (для Менеджера)
-        public List<Vehicle> getVehicles() {
+        public ArrayList<Vehicle> getVehicles() {
             return vehicles;
         }
 

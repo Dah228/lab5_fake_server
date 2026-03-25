@@ -3,10 +3,14 @@ package server.commands;
 import common.CommandType;
 import common.ResponseSender;
 import common.Vehicle;
+import server.CommandParams;
 import server.collection.VehicleRandom;
 import common.ReturnCode;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static server.VehicleFormatter.printVehicleList;
 
 public class PrintDescendingCommand implements Command{
     private final VehicleRandom vehicleRandom;
@@ -17,10 +21,11 @@ public class PrintDescendingCommand implements Command{
     }
 
     @Override
-    public ReturnCode execute(List<String> args, Vehicle vehicle, Boolean isLaud){
-        if (args.size() != 1) return ReturnCode.FAILED;
+    public ReturnCode execute(CommandParams params){
+        if (params.args().size() != 1) return ReturnCode.FAILED;
         else{
-            vehicleRandom.sortByIDDescending();
+            ArrayList<Vehicle> veh = vehicleRandom.sortByIDDescending();
+            if (params.isLaud()) printVehicleList(veh, params.responseSender());
             return ReturnCode.OK;
         }
 

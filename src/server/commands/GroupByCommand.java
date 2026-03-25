@@ -1,30 +1,34 @@
 package server.commands;
 
 import common.CommandType;
-import common.ResponseSender;
 import common.ReturnCode;
-import common.Vehicle;
+import server.CommandParams;
+import server.VehicleFormatter;
 import server.collection.VehicleAdder;
-import java.util.List;
+import java.util.Map;
 
 
 public class GroupByCommand implements Command{
     private final VehicleAdder vehicleAdder;
     private final CommandType type = CommandType.DETECTPARAM;
-    private final ResponseSender responseSender;
-    public GroupByCommand(VehicleAdder vehicleAdder, ResponseSender responseSender){
+    public GroupByCommand(VehicleAdder vehicleAdder){
         this.vehicleAdder = vehicleAdder;
-        this.responseSender = responseSender;
     }
-    @Override
-    public ReturnCode execute(List<String> args, Vehicle vehicle, Boolean isLaud) {
-        try {
-            vehicleAdder.groupByParam(args,responseSender);
-            return ReturnCode.OK;
-        } catch (Exception e) {
-            return ReturnCode.FAILED;
+
+        @Override
+        public ReturnCode execute(CommandParams params) {
+            try {
+
+                Map<Comparable<?>, Long> grouped = vehicleAdder.groupByParam(params.args());
+                String fieldName = params.args().get(0);
+                VehicleFormatter.printGroupedResult(fieldName, grouped, params.responseSender());
+                return ReturnCode.OK;
+
+            } catch (Exception e) {
+                params.responseSender().send(" Ошибка группировки: " + e.getMessage());
+                return ReturnCode.FAILED;
+            }
         }
-    }
 
     @Override
     public String getDescription() {

@@ -1,6 +1,8 @@
 package common;
 
-public enum ReturnCode {
+import java.io.Serializable;
+
+public enum ReturnCode implements Serializable {
     OK,
     FAILED
 

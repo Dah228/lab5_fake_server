@@ -2,30 +2,33 @@ package server.commands;
 
 
 import common.*;
+import server.CommandParams;
 import server.collection.VehicleManager;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static server.VehicleFormatter.printVehicleList;
 
 public class FilterLessThatType implements Command{
 
     private final CommandType type = CommandType.WITHARGS;
     VehicleManager vehicleManager;
-    private final ResponseSender responseSender;
 
-    public FilterLessThatType(VehicleManager vehicleCollection, ResponseSender responseSender){
+    public FilterLessThatType(VehicleManager vehicleCollection){
         this.vehicleManager = vehicleCollection;
-        this.responseSender = responseSender;
     }
 
     @Override
-    public ReturnCode execute(List<String> args, Vehicle vehicle, Boolean isLaud) {
-        if (args.size() != 2) return ReturnCode.FAILED;
+    public ReturnCode execute(CommandParams params) {
+        if (params.args().size() != 2) return ReturnCode.FAILED;
         try {
-            VehicleType type = VehicleType.valueOf(args.get(1).toUpperCase());
-            vehicleManager.filterLessThanType(type);
+            VehicleType type = VehicleType.valueOf(params.args().get(1).toUpperCase());
+            ArrayList<Vehicle> veh = vehicleManager.filterLessThanType(type);
+            if (params.isLaud()) printVehicleList(veh, params.responseSender());
             return ReturnCode.OK;
         } catch (IllegalArgumentException e) {
-            if(isLaud) responseSender.send("Ошибка: неверный тип! Доступные: PLANE, HELICOPTER, BOAT, SHIP, HOVERBOARD");
+            if(params.isLaud()) params.responseSender().send("Ошибка: неверный тип! Доступные: PLANE, HELICOPTER, BOAT, SHIP, HOVERBOARD");
             return ReturnCode.FAILED;
         }
 

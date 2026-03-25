@@ -3,6 +3,7 @@ package server.commands;
 import common.CommandType;
 import common.ResponseSender;
 import common.Vehicle;
+import server.CommandParams;
 import server.collection.VehicleSaver;
 import common.ReturnCode;
 
@@ -13,25 +14,21 @@ import java.util.List;
 public class SaveCommand implements Command{
     VehicleSaver vehicleSaver;
     private final CommandType type = CommandType.NOARGS;
-    private final ResponseSender responseSender;
 
 
-    public SaveCommand(VehicleSaver vehicleSaver, ResponseSender responseSender){
+    public SaveCommand(VehicleSaver vehicleSaver){
         this.vehicleSaver = vehicleSaver;
-        this.responseSender = responseSender;
     }
 
 @Override
-    public ReturnCode execute(List<String> args, Vehicle vehicle, Boolean isLaud){
-        if (args.size()!= 1) return ReturnCode.FAILED;
-        try {
-            vehicleSaver.saveToFile();
+    public ReturnCode execute(CommandParams params){
+        if (params.args().size()!= 1) return ReturnCode.FAILED;
+        if(vehicleSaver.saveToFile()) {
+            params.responseSender().send("Успешно сохранено vehicles_saved");
             return ReturnCode.OK;
-        } catch (ParserConfigurationException e) {
-            responseSender.send("Нарушена поддержка парсера");
-            return ReturnCode.FAILED;
-        } catch (TransformerException e) {
-            responseSender.send("Ошибка записи файла");
+        }
+        else{
+            params.responseSender().send("Произошла ошибка сохранения");
             return ReturnCode.FAILED;
         }
     }

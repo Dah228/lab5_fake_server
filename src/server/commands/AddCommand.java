@@ -1,46 +1,47 @@
 package server.commands;
 
 import common.CommandType;
-import common.ResponseSender;
-import common.Vehicle;
-import server.collection.VehicleAdder;
 import common.ReturnCode;
+import server.CommandParams;
+import server.collection.VehicleAdder;
 
 import java.util.List;
 
 public class AddCommand implements Command {
     private final CommandType type = CommandType.WITHMODEL;
-    private final VehicleAdder vehicle;
-    private final ResponseSender responseSender;
+    private final VehicleAdder vehicleAdder;
 
-    public AddCommand(VehicleAdder vehicle, ResponseSender responseSender) {
-        this.vehicle = vehicle;
-        this.responseSender = responseSender;
+    public AddCommand(VehicleAdder vehicleAdder) {
+        this.vehicleAdder = vehicleAdder;
     }
 
-
     @Override
-    public ReturnCode execute(List<String> args, Vehicle vehicle, Boolean isLaud) {
-        if (args.size() != 1) {
-            if (isLaud) responseSender.send("Add required 1 args, got = " + args.size());
-            return ReturnCode.FAILED;
-        }
+    public ReturnCode execute(CommandParams params) {
         try {
-            this.vehicle.addElement(vehicle,isLaud);
+            // ← Достаём данные из record
+            this.vehicleAdder.addElement(params.vehicle());
+
+            if (params.isLaud()) {
+                params.responseSender().send("Транспортное средство успешно добавлено");
+                params.responseSender().send("ID: " + params.vehicle().getId());
+            }
             return ReturnCode.OK;
-        } catch (IllegalArgumentException e){
-            responseSender.send("произошла ошибка, в параметры команды add были введены не валидные данные");
+        } catch (IllegalArgumentException e) {
+            params.responseSender().send("Ошибка валидации: " + e.getMessage());
+            return ReturnCode.FAILED;
+        } catch (Exception e) {
+            params.responseSender().send("Внутренняя ошибка: " + e.getMessage());
             return ReturnCode.FAILED;
         }
     }
 
     @Override
     public String getDescription() {
-        return "добавить элемент в колллекцию";
+        return "Добавить новый элемент в коллекцию";
     }
 
     @Override
-    public CommandType getType(){
+    public CommandType getType() {
         return this.type;
     }
 }

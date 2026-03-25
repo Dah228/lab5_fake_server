@@ -2,10 +2,13 @@ package server.commands;
 
 import common.CommandType;
 import common.Vehicle;
+import server.CommandParams;
 import server.collection.VehicleRandom;
 import common.ReturnCode;
 
 import java.util.List;
+
+import static server.VehicleFormatter.printVehicleList;
 
 public class ShuffleCommand implements Command{
     private final VehicleRandom vehicleRandom;
@@ -18,10 +21,10 @@ public class ShuffleCommand implements Command{
     }
 
     @Override
-    public ReturnCode execute(List<String> args, Vehicle vehicle, Boolean isLaud){
-        if (args.size() != 1) return ReturnCode.FAILED;
+    public ReturnCode execute(CommandParams params){
+        if (params.args().size() != 1) return ReturnCode.FAILED;
         else{
-            vehicleRandom.shuffle();
+            printVehicleList(vehicleRandom.shuffle(), params.responseSender());
             return ReturnCode.OK;
         }
     }

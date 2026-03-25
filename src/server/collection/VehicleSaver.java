@@ -18,14 +18,14 @@ import java.util.TimeZone;
 
 public class VehicleSaver {
     private final VehicleCollection collection;
-    private final ResponseSender responseSender;
 
-    public VehicleSaver(VehicleCollection collection, ResponseSender responseSender) {
+    public VehicleSaver(VehicleCollection collection) {
         this.collection = collection;
-        this.responseSender = responseSender;
     }
 
-    public void saveToFile() throws ParserConfigurationException, TransformerException {
+    public boolean saveToFile() {
+
+        try {
 
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -38,7 +38,7 @@ public class VehicleSaver {
             document.appendChild(root);
 
             // Create book elements and add text content
-            for (Vehicle v : collection.getVehicles()){
+            for (Vehicle v : collection.getVehicles()) {
                 Element vehicleElem = document.createElement("vehicle");
 
                 vehicleElem.setAttribute("id", String.valueOf(v.getId()));
@@ -89,9 +89,11 @@ public class VehicleSaver {
             // Specify your local file path
             StreamResult result = new StreamResult("vehicles_saved.xml");
             transformer.transform(source, result);
-
-            responseSender.send("XML file vehicles_saved.xml created successfully!");
+            return true;
+        } catch (ParserConfigurationException | TransformerException e) {
+            return false;
         }
 
+    }
 }
 

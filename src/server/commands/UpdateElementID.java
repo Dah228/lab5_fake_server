@@ -3,6 +3,7 @@ package server.commands;
 import common.CommandType;
 import common.ResponseSender;
 import common.Vehicle;
+import server.CommandParams;
 import server.collection.VehicleAdder;
 import common.ReturnCode;
 
@@ -11,26 +12,24 @@ import java.util.List;
 public class UpdateElementID implements Command {
     VehicleAdder vehicleManager;
     private final CommandType type = CommandType.WITHARGSMODEL;
-    private final ResponseSender responseSender;
 
 
 
-    public UpdateElementID(VehicleAdder vehicleManager, ResponseSender responseSender) {
+    public UpdateElementID(VehicleAdder vehicleManager) {
         this.vehicleManager = vehicleManager;
-        this.responseSender = responseSender;
     }
 
     @Override
-    public ReturnCode execute(List<String> args, Vehicle vehicle, Boolean isLaud) {
-        if (args.size() != 2){
+    public ReturnCode execute(CommandParams params) {
+        if (params.args().size() != 2){
             return ReturnCode.FAILED;
         }
         try {
-            long identifier = Long.parseLong(args.get(1));
-            vehicleManager.updateElementByID(identifier, vehicle, isLaud);
+            long identifier = Long.parseLong(params.args().get(1));
+            if (vehicleManager.updateElementByID(identifier, params.vehicle())) params.responseSender().send("Элемент успешно обновлен");
             return ReturnCode.OK;
         } catch (IllegalArgumentException e) {
-            responseSender.send("Ошибка: неверный тип! Введите число");
+            params.responseSender().send("Ошибка: неверный тип! Введите число");
             return ReturnCode.FAILED;
         }
     }

@@ -1,3 +1,5 @@
 package common;
 
-public enum FuelType { GASOLINE, KEROSENE, ELECTRICITY, DIESEL, NUCLEAR }
+import java.io.Serializable;
+
+public enum FuelType implements Serializable { GASOLINE, KEROSENE, ELECTRICITY, DIESEL, NUCLEAR }
