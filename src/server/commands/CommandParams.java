@@ -1,5 +1,6 @@
-package server;
+package server.commands;
 
+import common.ResponseSender;
 import common.Vehicle;
 
 import java.util.List;

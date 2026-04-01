@@ -2,8 +2,6 @@ package server.commands;
 
 import common.CommandType;
 import common.ReturnCode;
-import server.CommandParams;
-import server.VehicleFormatter;
 import server.collection.VehicleAdder;
 import java.util.Map;
 

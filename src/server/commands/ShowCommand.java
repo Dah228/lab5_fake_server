@@ -1,14 +1,10 @@
 package server.commands;
 
 import common.CommandType;
-import common.Vehicle;
-import server.CommandParams;
 import server.collection.VehicleManager;
 import common.ReturnCode;
 
-import java.util.List;
-
-import static server.VehicleFormatter.printVehicleList;
+import static server.commands.VehicleFormatter.printVehicleList;
 
 public class ShowCommand implements Command {
     private final VehicleManager manager;

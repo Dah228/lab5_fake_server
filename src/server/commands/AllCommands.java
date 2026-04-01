@@ -1,8 +1,6 @@
-package server;
+package server.commands;
 
 import common.CommandType;
-import server.commands.Command;
-import server.commands.CommandsList;
 
 import java.util.HashMap;
 import java.util.Map;

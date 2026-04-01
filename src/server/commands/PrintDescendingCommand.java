@@ -2,13 +2,12 @@ package server.commands;
 
 import common.CommandType;
 import common.Vehicle;
-import server.CommandParams;
 import server.collection.VehicleRandom;
 import common.ReturnCode;
 
 import java.util.ArrayList;
 
-import static server.VehicleFormatter.printVehicleList;
+import static server.commands.VehicleFormatter.printVehicleList;
 
 public class PrintDescendingCommand implements Command{
     private final VehicleRandom vehicleRandom;

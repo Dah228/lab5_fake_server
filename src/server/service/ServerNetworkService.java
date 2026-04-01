@@ -1,4 +1,4 @@
-package server;
+package server.service;
 
 import common.CommandRequest;
 import common.CommandResponse;

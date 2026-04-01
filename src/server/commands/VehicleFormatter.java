@@ -1,5 +1,6 @@
-package server;  // или common, если нужно и клиенту
+package server.commands;  // или common, если нужно и клиенту
 
+import common.ResponseSender;
 import common.Vehicle;
 
 import java.util.Map;

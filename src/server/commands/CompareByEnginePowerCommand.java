@@ -3,12 +3,11 @@ package server.commands;
 import common.CommandType;
 import common.ReturnCode;
 import common.Vehicle;
-import server.CommandParams;
 import server.collection.VehicleManager;
 
 import java.util.ArrayList;
 
-import static server.VehicleFormatter.printVehicleList;
+import static server.commands.VehicleFormatter.printVehicleList;
 
 public class CompareByEnginePowerCommand implements Command {
     private final VehicleManager vehicleManager;

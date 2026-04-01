@@ -4,7 +4,11 @@ import common.CommandRequest;
 import common.CommandResponse;
 import common.CommandType;
 import common.ReturnCode;
+import server.commands.AllCommands;
 import server.commands.CommandsList;
+import server.commands.Invoker;
+import server.service.NetworkResponseSender;
+import server.service.ServerNetworkService;
 
 import java.util.List;
 import java.util.Map;
@@ -18,11 +22,11 @@ public class ServerApp {
 
         ServerNetworkService network = new ServerNetworkService(7301);
         if (!network.start()) {
-            System.err.println("❌ Не удалось запустить сервер");
+            System.err.println("Не удалось запустить сервер");
             return;
         }
 
-        System.out.println("✅ Сервер запущен. Команды: "
+        System.out.println("Сервер запущен. Команды: "
                 + commandsList.getCommandList().size());
 
         // ─── 2. ГЛАВНЫЙ ЦИКЛ: приём клиентов ───────────────────────

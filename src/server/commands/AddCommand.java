@@ -2,10 +2,7 @@ package server.commands;
 
 import common.CommandType;
 import common.ReturnCode;
-import server.CommandParams;
 import server.collection.VehicleAdder;
-
-import java.util.List;
 
 public class AddCommand implements Command {
     private final CommandType type = CommandType.WITHMODEL;

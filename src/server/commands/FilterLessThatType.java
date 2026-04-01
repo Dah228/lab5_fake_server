@@ -2,13 +2,11 @@ package server.commands;
 
 
 import common.*;
-import server.CommandParams;
 import server.collection.VehicleManager;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import static server.VehicleFormatter.printVehicleList;
+import static server.commands.VehicleFormatter.printVehicleList;
 
 public class FilterLessThatType implements Command{
 

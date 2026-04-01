@@ -1,4 +1,6 @@
-package server;
+package server.service;
+
+import common.ResponseSender;
 
 public class NetworkResponseSender implements ResponseSender {
     private final StringBuilder output = new StringBuilder();

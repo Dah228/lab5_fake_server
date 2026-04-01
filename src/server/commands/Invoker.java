@@ -1,8 +1,8 @@
-package server;
+package server.commands;
 
-import server.commands.Command;
 import common.ReturnCode;
 import common.Vehicle;
+import server.service.NetworkResponseSender;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +21,7 @@ public class Invoker {
             List<String> args,
             Vehicle vehicle,
             Boolean isLaud,
-            ResponseSender responseSender  // ← отправитель
+            NetworkResponseSender responseSender  // ← отправитель
     ) {
         Command command = commands.get(commandName);
 

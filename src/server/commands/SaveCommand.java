@@ -1,7 +1,6 @@
 package server.commands;
 
 import common.CommandType;
-import server.CommandParams;
 import server.collection.VehicleSaver;
 import common.ReturnCode;
 
