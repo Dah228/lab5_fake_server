@@ -1,13 +1,9 @@
 package server.commands;
 
 import common.CommandType;
-import common.ResponseSender;
 import common.ReturnCode;
-import common.Vehicle;
 import server.CommandParams;
 import server.collection.VehicleManager;
-
-import java.util.List;
 
 public class ClearCommand implements Command {
     private final VehicleManager manager;

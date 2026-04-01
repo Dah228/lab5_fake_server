@@ -1,13 +1,9 @@
 package server.commands;
 
 import common.CommandType;
-import common.ResponseSender;
-import common.Vehicle;
 import server.CommandParams;
 import server.collection.VehicleAdder;
 import common.ReturnCode;
-
-import java.util.List;
 //import server.collection.VehicleComaperator;
 
 public class AddIfMax implements Command{

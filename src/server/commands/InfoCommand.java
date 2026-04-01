@@ -1,14 +1,9 @@
 package server.commands;
 
 import common.CommandType;
-import common.ResponseSender;
-import common.Vehicle;
 import server.CommandParams;
 import server.collection.VehicleManager;
 import common.ReturnCode;
-
-import java.util.HashMap;
-import java.util.List;
 
 public class InfoCommand implements Command{
     private final VehicleManager vehicleCollection;

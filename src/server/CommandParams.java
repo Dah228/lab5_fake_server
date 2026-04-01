@@ -1,6 +1,5 @@
 package server;
 
-import common.ResponseSender;
 import common.Vehicle;
 
 import java.util.List;

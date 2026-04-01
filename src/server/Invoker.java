@@ -3,7 +3,6 @@ package server;
 import server.commands.Command;
 import common.ReturnCode;
 import common.Vehicle;
-import common.ResponseSender;
 
 import java.util.HashMap;
 import java.util.List;

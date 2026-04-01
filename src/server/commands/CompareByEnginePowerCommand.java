@@ -1,14 +1,12 @@
 package server.commands;
 
 import common.CommandType;
-import common.ResponseSender;
 import common.ReturnCode;
 import common.Vehicle;
 import server.CommandParams;
 import server.collection.VehicleManager;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static server.VehicleFormatter.printVehicleList;
 
