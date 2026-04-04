@@ -24,7 +24,7 @@ public class ServerApp {
         Invoker invoker = commandsList.getInvoker();
         AllCommands allCommands = new AllCommands(commandsList);
 
-        ServerNetworkService network = new ServerNetworkService(8080, commandsList);
+        ServerNetworkService network = new ServerNetworkService(7301, commandsList);
 
         if (!network.start()) {
             System.err.println("Не удалось запустить сервер");
