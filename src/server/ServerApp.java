@@ -9,7 +9,10 @@ import server.commands.Invoker;
 import server.service.NetworkResponseSender;
 import server.service.ServerNetworkService;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.nio.channels.SocketChannel;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -28,9 +31,55 @@ public class ServerApp {
             return;
         }
 
-        System.out.println("Сервер запущен. Зарегистрировано команд: " +
+        System.out.println("Сервер запущен. Команды: " +
                 commandsList.getCommandList().size());
+        System.out.println("Введите команду в консоль сервера или 'help' для списка.");
 
+        // Поток для чтения команд из консоли сервера
+        Thread consoleThread = new Thread(() -> {
+            BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
+            try {
+                String line;
+                while ((line = consoleReader.readLine()) != null) {
+                    line = line.trim();
+                    if (line.isEmpty()) continue;
+                    if (line.equals("exit")) {
+                        System.out.println("Остановка сервера...");
+                        network.stop();
+                        break;
+                    }
+
+                    String[] tokens = line.split("\\s+");
+                    String commandName = tokens[0];
+                    List<String> arguments = Arrays.asList(tokens);
+
+                    System.out.printf("Консоль: %s | args=%s%n", commandName, arguments);
+
+                    NetworkResponseSender consoleSender = new NetworkResponseSender();
+
+                    ReturnCode statusCode = invoker.executeCommand(
+                            commandName,
+                            arguments,
+                            null, // vehicle не нужен для консольных команд сервера
+                            true, // isLaud = true, чтобы выводить сообщения
+                            consoleSender
+                    );
+
+                    String output = consoleSender.getOutput();
+                    if (!output.isEmpty()) {
+                        System.out.println(output);
+                    } else {
+                        System.out.println(statusCode == ReturnCode.OK ? "Команда выполнена" : "Ошибка выполнения");
+                    }
+                }
+            } catch (Exception e) {
+                System.err.println("Ошибка чтения консоли: " + e.getMessage());
+            }
+        });
+        consoleThread.setDaemon(true);
+        consoleThread.start();
+
+        // Главный цикл: обработка сетевых событий
         while (true) {
             int eventsProcessed = network.processEvents();
 
@@ -51,8 +100,8 @@ public class ServerApp {
                             common.Vehicle vehicle = request.getVehicle();
                             Boolean isLaud = request.getBoolean();
 
-                            System.out.printf("Запрос от %s: %s | args=%s | isLaud=%s%n",
-                                    clientChannel.getRemoteAddress(), commandName, arguments, isLaud);
+                            System.out.printf("Запрос от %s: %s%n",
+                                    clientChannel.getRemoteAddress(), commandName);
 
                             NetworkResponseSender networkSender = new NetworkResponseSender();
 
@@ -72,18 +121,10 @@ public class ServerApp {
                                     null
                             );
 
-                            if (!network.sendTo(clientChannel, response)) {
-                                System.out.println("Не удалось отправить ответ клиенту " +
-                                        clientChannel.getRemoteAddress());
-                            } else {
-                                System.out.println("Ответ отправлен клиенту " +
-                                        clientChannel.getRemoteAddress());
-                            }
+                            network.sendTo(clientChannel, response);
 
                         } catch (Exception e) {
                             System.err.println("Ошибка обработки запроса: " + e.getMessage());
-                            e.printStackTrace();
-
                             CommandResponse error = new CommandResponse(
                                     false,
                                     "Ошибка сервера: " + e.getMessage(),
@@ -95,9 +136,7 @@ public class ServerApp {
                 }
             }
 
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException ignored) {}
+            try { Thread.sleep(10); } catch (InterruptedException ignored) {}
         }
     }
 }
