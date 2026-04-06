@@ -3,7 +3,6 @@ package server;
 import common.CommandRequest;
 import common.CommandResponse;
 import common.ReturnCode;
-import server.commands.AllCommands;
 import server.commands.CommandsList;
 import server.commands.Invoker;
 import server.service.NetworkResponseSender;
@@ -22,7 +21,6 @@ public class ServerApp {
 
         CommandsList commandsList = new CommandsList();
         Invoker invoker = commandsList.getInvoker();
-        AllCommands allCommands = new AllCommands(commandsList);
 
         ServerNetworkService network = new ServerNetworkService(7301, commandsList);
 
@@ -90,8 +88,7 @@ public class ServerApp {
                     SocketChannel clientChannel = entry.getKey();
                     var key = clientChannel.keyFor(network.getSelector());
 
-                    if (key != null && key.attachment() instanceof CommandRequest) {
-                        CommandRequest request = (CommandRequest) key.attachment();
+                    if (key != null && key.attachment() instanceof CommandRequest request) {
                         key.attach(null);
 
                         try {

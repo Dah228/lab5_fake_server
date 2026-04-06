@@ -24,7 +24,7 @@ public class VehicleManager {
 
     // Логика информации
     public HashMap<String, String> getInfo() {
-        HashMap<String, String> paramList = new HashMap();
+        HashMap<String, String> paramList = new HashMap<>();
         paramList.put("Размер коллекции : ", String.valueOf(collection.size()));
         paramList.put("Тип коллекции : ", collection.getVehicles().getClass().getName());
         paramList.put("Дата инициализации : ", String.valueOf(collection.getInitTime()));

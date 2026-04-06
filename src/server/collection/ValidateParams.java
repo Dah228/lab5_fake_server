@@ -21,51 +21,18 @@ public class ValidateParams {
         String first = args.get(1).trim().toUpperCase();
 
         // 1. VehicleType
-        if (first.equals("TYPE")) {
-            return new GroupingField("type", Vehicle::getType);
-        }
+        return switch (first) {
+            case "TYPE" -> new GroupingField("type", Vehicle::getType);
 
-        // 2. FuelType
-        if (first.equals("FUELTYPE")) {
-            return new GroupingField("fueltype", Vehicle::getFuelType);
-        }
 
-        // 3. Координаты
-        if (first.equals("COORDINATES")) {
-            return new GroupingField("coordinates", Vehicle::getCoordinates);
-        }
+            // 2. FuelType
+            case "FUELTYPE" -> new GroupingField("fueltype", Vehicle::getFuelType);
 
-        throw new IllegalArgumentException("Не распознано: " + first);
+
+            // 3. Координаты
+            case "COORDINATES" -> new GroupingField("coordinates", Vehicle::getCoordinates);
+            default -> throw new IllegalArgumentException("Не распознано: " + first);
+        };
+
     }
 }
-//
-//
-//    private boolean isVehicleType(String value) {
-//        try {
-//            VehicleType.valueOf(value.toUpperCase());
-//            return true;
-//        } catch (IllegalArgumentException | NullPointerException e) {
-//            return false;
-//        }
-//    }
-//
-//    private boolean isFuelType(String value) {
-//        try {
-//            FuelType.valueOf(value.toUpperCase());
-//            return true;
-//        } catch (IllegalArgumentException e) {
-//            return false;
-//        }
-//    }
-//
-//    private boolean isCoordinates(List<String> args) {
-//        if (args.size() < 3) return false;
-//        try {
-//            Integer.parseInt(args.get(1).trim());
-//            Float.parseFloat(args.get(2).trim());
-//            return true;
-//        } catch (NumberFormatException e) {
-//            return false;
-//        }
-//    }
-//}

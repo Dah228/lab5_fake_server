@@ -19,8 +19,7 @@ public class InfoCommand implements Command{
         if (params.args().size() != 1) return ReturnCode.FAILED;
 
         else {
-            vehicleCollection.getInfo().forEach((key, value) -> {
-                params.responseSender().send(key + value);});
+            vehicleCollection.getInfo().forEach((key, value) -> params.responseSender().send(key + value));
             return ReturnCode.OK;
         }
     }

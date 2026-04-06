@@ -98,17 +98,6 @@ public class Vehicle implements Serializable {
         this.fuelType = fuel;
     }
 
-    public static void printVehicle(Vehicle v) {
-        System.out.println("ID: " + v.getId());
-        System.out.println("Name: " + v.getName());
-        System.out.println("Coordinates: (" + v.getCoordinates().getX() + ", " + v.getCoordinates().getY() + ")");
-        System.out.println("Creation date: " + v.getCreationDate());
-        System.out.println("Engine power: " + v.getEnginePower());
-        System.out.println("Distance travelled: " + v.getDistanceTravelled());
-        System.out.println("Type: " + v.getType());
-        System.out.println("Fuel type: " + v.getFuelType());
-        System.out.println("------------------------");
-    }
 
 }
 

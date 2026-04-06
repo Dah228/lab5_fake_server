@@ -30,6 +30,7 @@ public class ServerNetworkService {
         public int expectedSize = -1;
         public boolean readingSize = true;
         public boolean initialized = false;
+        private final int maxpack = 1000;
 
         public void reset() {
             sizeBuffer.clear();
@@ -152,7 +153,7 @@ public class ServerNetworkService {
                 data.expectedSize = data.sizeBuffer.getInt();
                 data.sizeBuffer.clear();
 
-                if (data.expectedSize <= 0 || data.expectedSize > 10_000_000) {
+                if (data.expectedSize <= 0 || data.expectedSize > data.maxpack) {
                     System.out.println("Некорректный размер сообщения: " + data.expectedSize);
                     removeClient(clientChannel);
                     return null;
@@ -222,11 +223,6 @@ public class ServerNetworkService {
         }
     }
 
-    public void broadcast(CommandResponse response) {
-        for (SocketChannel client : clients.keySet()) {
-            sendTo(client, response);
-        }
-    }
 
     public void removeClient(SocketChannel clientChannel) {
         if (clientChannel != null) {
@@ -263,9 +259,6 @@ public class ServerNetworkService {
         return clients;
     }
 
-    public int getClientCount() {
-        return clients.size();
-    }
 
     public Selector getSelector() {
         return selector;

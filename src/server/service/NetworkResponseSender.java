@@ -2,8 +2,6 @@ package server.service;
 
 import common.ResponseSender;
 
-import common.ResponseSender;
-
 public class NetworkResponseSender implements ResponseSender {
     private final StringBuilder output = new StringBuilder();
 
@@ -14,7 +12,7 @@ public class NetworkResponseSender implements ResponseSender {
 
     @Override
     public void sendError(String error) {
-        output.append("❌ ").append(error).append("\n");
+        output.append("ERROR").append(error).append("\n");
     }
 
     @Override

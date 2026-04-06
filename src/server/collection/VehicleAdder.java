@@ -58,8 +58,4 @@ public class VehicleAdder {
                 ));
     }
 
-    public String getGroupingFieldName(List<String> args) {
-        ValidateParams validator = new ValidateParams(args);
-        return validator.getGroupingField().fieldName();
-    }
 }
