@@ -11,9 +11,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ServerNetworkService {
@@ -64,11 +62,11 @@ public class ServerNetworkService {
         }
     }
 
-    public int processEvents() {
+    public List<SelectionKey> processEvents() {
         try {
             selector.select(100);
             Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
-            int processed = 0;
+            List<SelectionKey> readyKeys = new ArrayList<>();
 
             while (keys.hasNext()) {
                 SelectionKey key = keys.next();
@@ -78,16 +76,19 @@ public class ServerNetworkService {
 
                 if (key.isAcceptable()) {
                     handleAccept();
-                    processed++;
                 } else if (key.isReadable()) {
                     handleRead(key);
-                    processed++;
+                }
+
+                // Если после чтения к ключу прикрепился запрос — добавляем в список
+                if (key.attachment() instanceof CommandRequest) {
+                    readyKeys.add(key);
                 }
             }
-            return processed;
+            return readyKeys;
         } catch (IOException e) {
             System.out.println("Ошибка обработки событий: " + e.getMessage());
-            return 0;
+            return Collections.emptyList();
         }
     }
 

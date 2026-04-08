@@ -32,13 +32,4 @@ public class CommandResponse implements Serializable {
         return data;
     }
 
-    // Для отладки
-//    @Override
-//    public String toString() {
-//        return "CommandResponse{" +
-//                "success=" + success +
-//                ", message='" + message + '\'' +
-//                ", data size=" + (data != null ? data.wait() : 0) +
-//                '}';
-//    }
 }

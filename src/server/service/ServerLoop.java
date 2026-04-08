@@ -2,8 +2,9 @@ package server.service;
 
 import common.CommandRequest;
 
+import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
-import java.util.Map;
+import java.util.List;
 
 public class ServerLoop {
 
@@ -24,28 +25,16 @@ public class ServerLoop {
         ServerNetworkService network = context.getNetworkService();
 
         while (running) {
-            int eventsProcessed = network.processEvents();
 
-            if (eventsProcessed > 0) {
-                for (Map.Entry<SocketChannel, ServerNetworkService.ClientData> entry :
-                        network.getClients().entrySet()) {
+            List<SelectionKey> readyKeys = network.processEvents();
 
-                    SocketChannel clientChannel = entry.getKey();
-                    var key = clientChannel.keyFor(network.getSelector());
+            for (SelectionKey key : readyKeys) {
+                CommandRequest request = (CommandRequest) key.attachment();
+                key.attach(null); // сбрасываем, чтобы не обработать повторно
 
-                    if (key != null && key.attachment() instanceof CommandRequest request) {
-                        key.attach(null);
-                        requestHandler.processRequest(clientChannel, request);
-                    }
-                }
+                requestHandler.processRequest((SocketChannel) key.channel(), request);
             }
 
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException ignored) {
-                Thread.currentThread().interrupt();
-                break;
-            }
         }
     }
 }
