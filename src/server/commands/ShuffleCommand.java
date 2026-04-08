@@ -1,18 +1,18 @@
 package server.commands;
 
 import common.CommandType;
-import server.collection.VehicleRandom;
+import server.collection.VehicleManager;
 import common.ReturnCode;
 
 import static server.commands.VehicleFormatter.printVehicleList;
 
 public class ShuffleCommand implements Command{
-    private final VehicleRandom vehicleRandom;
+    private final VehicleManager vehicleRandom;
     private final CommandType type = CommandType.NOARGS;
 
 
 
-    public ShuffleCommand(VehicleRandom vehicleRandom){
+    public ShuffleCommand(VehicleManager vehicleRandom){
         this.vehicleRandom = vehicleRandom;
     }
 

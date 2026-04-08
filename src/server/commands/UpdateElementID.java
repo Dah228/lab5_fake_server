@@ -1,16 +1,17 @@
 package server.commands;
 
 import common.CommandType;
-import server.collection.VehicleAdder;
+import common.Vehicle;
 import common.ReturnCode;
+import server.collection.VehicleManager;
 
 public class UpdateElementID implements Command {
-    VehicleAdder vehicleManager;
+    VehicleManager vehicleManager;
     private final CommandType type = CommandType.WITHARGSMODEL;
 
 
 
-    public UpdateElementID(VehicleAdder vehicleManager) {
+    public UpdateElementID(VehicleManager vehicleManager) {
         this.vehicleManager = vehicleManager;
     }
 

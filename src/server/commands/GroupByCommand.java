@@ -2,14 +2,16 @@ package server.commands;
 
 import common.CommandType;
 import common.ReturnCode;
-import server.collection.VehicleAdder;
+import common.Vehicle;
+import server.collection.VehicleManager;
+
 import java.util.Map;
 
 
 public class GroupByCommand implements Command{
-    private final VehicleAdder vehicleAdder;
+    private final VehicleManager vehicleAdder;
     private final CommandType type = CommandType.DETECTPARAM;
-    public GroupByCommand(VehicleAdder vehicleAdder){
+    public GroupByCommand(VehicleManager vehicleAdder){
         this.vehicleAdder = vehicleAdder;
     }
 

@@ -1,15 +1,15 @@
 package server.commands;
 
 import common.CommandType;
-import server.collection.VehicleAdder;
 import common.ReturnCode;
+import server.collection.VehicleManager;
 
 public class RemoveByID implements Command{
-    VehicleAdder vehicleManager;
+    VehicleManager vehicleManager;
     private final CommandType type = CommandType.WITHARGS;
 
 
-    public RemoveByID(VehicleAdder vehicleManager){
+    public RemoveByID(VehicleManager vehicleManager){
         this.vehicleManager = vehicleManager;
     }
 

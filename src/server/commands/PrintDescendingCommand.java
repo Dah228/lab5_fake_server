@@ -1,21 +1,18 @@
 package server.commands;
 
 import common.CommandType;
-import common.ResponseSender;
 import common.Vehicle;
-import server.collection.VehicleRandom;
+import server.collection.VehicleManager;
 import common.ReturnCode;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import static server.commands.VehicleFormatter.printVehicleList;
 
 public class PrintDescendingCommand implements Command{
-    private final VehicleRandom vehicleRandom;
+    private final VehicleManager vehicleRandom;
     private final CommandType type = CommandType.NOARGS;
 
-    public PrintDescendingCommand(VehicleRandom vehicleRandom){
+    public PrintDescendingCommand(VehicleManager vehicleRandom){
         this.vehicleRandom = vehicleRandom;
     }
 

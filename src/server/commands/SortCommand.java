@@ -1,17 +1,17 @@
 package server.commands;
 
 import common.CommandType;
-import server.collection.VehicleRandom;
+import server.collection.VehicleManager;
 import common.ReturnCode;
 
 
 import static server.commands.VehicleFormatter.printVehicleList;
 
 public class SortCommand implements Command{
-    private final VehicleRandom vehicleRandom;
+    private final VehicleManager vehicleRandom;
     private final CommandType type = CommandType.NOARGS;
 
-    public SortCommand(VehicleRandom vehicleRandom){
+    public SortCommand(VehicleManager vehicleRandom){
         this.vehicleRandom = vehicleRandom;
     }
 

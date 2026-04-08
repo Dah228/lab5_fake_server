@@ -2,13 +2,13 @@ package server.commands;
 
 import common.CommandType;
 import common.ReturnCode;
-import server.collection.VehicleAdder;
+import server.collection.VehicleManager;
 
 public class AddCommand implements Command {
     private final CommandType type = CommandType.WITHMODEL;
-    private final VehicleAdder vehicleAdder;
+    private final VehicleManager vehicleAdder;
 
-    public AddCommand(VehicleAdder vehicleAdder) {
+    public AddCommand(VehicleManager vehicleAdder) {
         this.vehicleAdder = vehicleAdder;
     }
 

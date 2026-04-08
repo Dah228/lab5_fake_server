@@ -4,8 +4,8 @@ package server.collection;
 import common.Vehicle;
 import common.VehicleType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class VehicleManager {
@@ -69,5 +69,69 @@ public class VehicleManager {
         }
         return filteredByEngine;
     }
+
+    public boolean updateElementByID(long id, Vehicle vehicle) {
+        if (collection.getVehicleByID(id) != null) {
+            vehicle.setId(id);
+            collection.replaceVehicle(id, vehicle);
+            return true;
+        }
+        return false;  // ← не найдено
+    }
+
+    public boolean rmByID(long id) {
+        List<Long> ids = collection.getAllID();
+        for (Long i : ids) {
+            if (i.equals(id)) {
+                collection.rmEl(collection.getVehicleByID(id));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addElement(Vehicle vehicle) {
+        collection.add(vehicle);
+    }
+
+    public boolean addIfMax(Vehicle veh) {
+        if (collection.getVehicles().stream().allMatch(v ->
+                v.getDistanceTravelled() < veh.getDistanceTravelled())) {
+            collection.add(veh);
+            return true;
+        }
+        return false;
+    }
+
+    // ← groupByParam возвращает результат, а не печатает
+    public Map<Comparable<?>, Long> groupByParam(List<String> args) {
+        ValidateParams validator = new ValidateParams(args);
+        GroupingField field = validator.getGroupingField();
+
+        return collection.getVehicles().stream()
+                .collect(Collectors.groupingBy(
+                        field.extractor(),
+                        Collectors.counting()
+                ));
+    }
+
+    public ArrayList<Vehicle> sortByID() {
+        ArrayList<Vehicle> vehicles = collection.getVehicles();
+        vehicles.sort(Comparator.comparingLong(Vehicle::getId));
+        return vehicles;
+    }
+
+    public ArrayList<Vehicle> sortByIDDescending() {
+        ArrayList<Vehicle> vehicles = collection.getVehicles();
+        vehicles.sort(Comparator.comparingLong(Vehicle::getId).reversed());
+        return vehicles;
+    }
+
+    public ArrayList<Vehicle> shuffle() {
+        ArrayList<Vehicle> vehicles = collection.getVehicles();
+        Collections.shuffle(vehicles);
+        return vehicles;
+    }
+
 
 }

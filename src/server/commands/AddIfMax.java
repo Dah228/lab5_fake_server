@@ -1,16 +1,15 @@
 package server.commands;
 
 import common.CommandType;
-import server.collection.VehicleAdder;
 import common.ReturnCode;
-//import server.collection.VehicleComaperator;
+import server.collection.VehicleManager;
 
 public class AddIfMax implements Command{
-    VehicleAdder vehicleAdder;
+    VehicleManager vehicleAdder;
     private final CommandType type = CommandType.WITHMODEL;
 
 
-    public AddIfMax(VehicleAdder vehicleComaperator){
+    public AddIfMax(VehicleManager vehicleComaperator){
         this.vehicleAdder = vehicleComaperator;
     }
 
