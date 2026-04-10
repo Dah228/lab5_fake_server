@@ -4,7 +4,7 @@
     import common.ReturnCode;
 
     public interface Command {
-        ReturnCode execute(CommandParams params);
+        ReturnCode execute(CommandParams params) throws Exception;
         String getDescription();
         CommandType getType();
     }

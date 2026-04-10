@@ -14,16 +14,16 @@ public class RemoveByID implements Command{
     }
 
     @Override
-    public ReturnCode execute(CommandParams params) {
+    public ReturnCode execute(CommandParams params) throws IllegalArgumentException {
         if(params.args().size() != 2) return ReturnCode.FAILED;
-        try {
+//        try {
             long number = Long.parseLong(params.args().get(1));
             if (vehicleManager.rmByID(number)) params.responseSender().send("Успешно удален");
             return ReturnCode.OK;
-        } catch (IllegalArgumentException e) {
-            if(params.isLaud()) params.responseSender().send("Ошибка: неверный тип! Введите число");
-            return ReturnCode.FAILED;
-        }
+//        } catch (IllegalArgumentException e) {
+//            if(params.isLaud()) params.responseSender().send("Ошибка: неверный тип! Введите число");
+//            return ReturnCode.FAILED;
+//        }
     }
 
 

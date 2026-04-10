@@ -18,17 +18,17 @@ public class FilterLessThatType implements Command{
     }
 
     @Override
-    public ReturnCode execute(CommandParams params) {
+    public ReturnCode execute(CommandParams params) throws IllegalArgumentException{
         if (params.args().size() != 2) return ReturnCode.FAILED;
-        try {
+//        try {
             VehicleType type = VehicleType.valueOf(params.args().get(1).toUpperCase());
             ArrayList<Vehicle> veh = vehicleManager.filterLessThanType(type);
             if (params.isLaud()) printVehicleList(veh, params.responseSender());
             return ReturnCode.OK;
-        } catch (IllegalArgumentException e) {
-            if(params.isLaud()) params.responseSender().send("Ошибка: неверный тип! Доступные: PLANE, HELICOPTER, BOAT, SHIP, HOVERBOARD");
-            return ReturnCode.FAILED;
-        }
+//        } catch (IllegalArgumentException e) {
+//            if(params.isLaud()) params.responseSender().send("Ошибка: неверный тип! Доступные: PLANE, HELICOPTER, BOAT, SHIP, HOVERBOARD");
+//            return ReturnCode.FAILED;
+//        }
 
     }
 

@@ -15,19 +15,13 @@ public class AddIfMax implements Command{
 
 
     @Override
-    public ReturnCode execute(CommandParams params){
+    public ReturnCode execute(CommandParams params) throws IllegalArgumentException {
         if (params.args().size() != 1){
             return ReturnCode.FAILED;
         }
-
-        try {
             vehicleAdder.addIfMax(params.vehicle());
             if (params.isLaud()) params.responseSender().send("У элемента максимальное значение пройденной дистанции. Добавлен.");
             return ReturnCode.OK;
-        } catch (IllegalArgumentException e) {
-            params.responseSender().send("Ошибка: неверный тип! Введите число");
-            return ReturnCode.FAILED;
-        }
     }
 
     @Override

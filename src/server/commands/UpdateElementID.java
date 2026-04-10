@@ -16,18 +16,18 @@ public class UpdateElementID implements Command {
     }
 
     @Override
-    public ReturnCode execute(CommandParams params) {
+    public ReturnCode execute(CommandParams params) throws IllegalArgumentException {
         if (params.args().size() != 2){
             return ReturnCode.FAILED;
         }
-        try {
+//        try {
             long identifier = Long.parseLong(params.args().get(1));
             if (vehicleManager.updateElementByID(identifier, params.vehicle())) params.responseSender().send("Элемент успешно обновлен");
             return ReturnCode.OK;
-        } catch (IllegalArgumentException e) {
-            params.responseSender().send("Ошибка: неверный тип! Введите число");
-            return ReturnCode.FAILED;
-        }
+//        } catch (IllegalArgumentException e) {
+//            params.responseSender().send("Ошибка: неверный тип! Введите число");
+//            return ReturnCode.FAILED;
+//        }
     }
 
     public String getDescription(){

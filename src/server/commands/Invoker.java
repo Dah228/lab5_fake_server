@@ -26,11 +26,16 @@ public class Invoker {
         Command command = commands.get(commandName);
 
         if (command != null) {
-            // ← Создаём record с параметрами
-            CommandParams params = new CommandParams(args, vehicle, isLaud, responseSender);
-            return command.execute(params);
-        } else {
-            System.out.println("Неизвестная команда: " + commandName);
+            try {
+                CommandParams params = new CommandParams(args, vehicle, isLaud, responseSender);
+                return command.execute(params);
+            } catch (Exception e) {
+                System.out.println("Ошибка типов " + commandName);
+                return ReturnCode.FAILED;
+            }
+        }
+        else{
+            System.out.println("Неизвестная команда " + commandName);
             return ReturnCode.FAILED;
         }
     }

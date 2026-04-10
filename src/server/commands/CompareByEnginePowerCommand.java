@@ -20,19 +20,19 @@ public class CompareByEnginePowerCommand implements Command {
     }
 
     @Override
-    public ReturnCode execute(CommandParams params) {
+    public ReturnCode execute(CommandParams params) throws IllegalArgumentException {
         if (params.args().size() != 2) {
             return ReturnCode.FAILED;
         }
-        try {
+//        try {
             Float number = Float.parseFloat(String.valueOf(params.args().get(1)));
             ArrayList<Vehicle> veh = vehicleManager.filterByEnginePower(number);
             if (params.isLaud()) printVehicleList(veh, params.responseSender());
             return ReturnCode.OK;
-        } catch (IllegalArgumentException e) {
-            if (params.isLaud()) params.responseSender().send("Ошибка: неверный тип! Введите число");
-            return ReturnCode.FAILED;
-        }
+//        } catch (IllegalArgumentException e) {
+//            if (params.isLaud()) params.responseSender().send("Ошибка: неверный тип! Введите число");
+//            return ReturnCode.FAILED;
+//        }
     }
 
 

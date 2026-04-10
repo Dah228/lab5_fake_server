@@ -17,17 +17,17 @@ public class GroupByCommand implements Command{
 
         @Override
         public ReturnCode execute(CommandParams params) {
-            try {
+//            try {
 
                 Map<Comparable<?>, Long> grouped = vehicleAdder.groupByParam(params.args());
                 String fieldName = params.args().get(0);
                 VehicleFormatter.printGroupedResult(fieldName, grouped, params.responseSender());
                 return ReturnCode.OK;
-
-            } catch (Exception e) {
-                params.responseSender().send(" Ошибка группировки: " + e.getMessage());
-                return ReturnCode.FAILED;
-            }
+//
+//            } catch (Exception e) {
+//                params.responseSender().send(" Ошибка группировки: " + e.getMessage());
+//                return ReturnCode.FAILED;
+//            }
         }
 
     @Override

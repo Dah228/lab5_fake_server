@@ -13,9 +13,8 @@ public class AddCommand implements Command {
     }
 
     @Override
-    public ReturnCode execute(CommandParams params) {
-        try {
-            // ← Достаём данные из record
+    public ReturnCode execute(CommandParams params) throws IllegalArgumentException {
+
             this.vehicleAdder.addElement(params.vehicle());
 
             if (params.isLaud()) {
@@ -23,13 +22,6 @@ public class AddCommand implements Command {
                 params.responseSender().send("ID: " + params.vehicle().getId());
             }
             return ReturnCode.OK;
-        } catch (IllegalArgumentException e) {
-            params.responseSender().send("Ошибка валидации: " + e.getMessage());
-            return ReturnCode.FAILED;
-        } catch (Exception e) {
-            params.responseSender().send("Внутренняя ошибка: " + e.getMessage());
-            return ReturnCode.FAILED;
-        }
     }
 
     @Override
