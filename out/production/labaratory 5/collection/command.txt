@@ -1,0 +1,4 @@
+show
+clear
+jhjf
+execute_script src/collection/command.txt
