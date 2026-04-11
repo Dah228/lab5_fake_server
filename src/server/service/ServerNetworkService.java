@@ -29,6 +29,8 @@ public class ServerNetworkService {
         public boolean readingSize = true;
         public boolean initialized = false;
         private final int maxpack = 1000;
+        public final Queue<ByteBuffer> writeQueue = new ArrayDeque<>();
+        public ByteBuffer currentWriteBuffer = null;
 
         public void reset() {
             sizeBuffer.clear();
@@ -45,6 +47,32 @@ public class ServerNetworkService {
             selector = Selector.open();
         } catch (IOException e) {
             throw new RuntimeException("Не удалось создать селектор", e);
+        }
+    }
+    // Метод отправки — только ставим в очередь, не пишем сразу
+    public void queueResponse(SocketChannel clientChannel, CommandResponse response) {
+        try {
+            byte[] data = Serializer.serialize(response);
+            ByteBuffer sizeBuffer = ByteBuffer.allocate(4);
+            sizeBuffer.putInt(data.length);
+            sizeBuffer.flip();
+
+            // Объединяем размер + данные в один буфер
+            ByteBuffer message = ByteBuffer.allocate(4 + data.length);
+            message.put(sizeBuffer);
+            message.put(data);
+            message.flip();
+
+            ClientData client = clients.get(clientChannel);
+            if (client != null) {
+                synchronized (client.writeQueue) {
+                    client.writeQueue.offer(message);
+                }
+                // Регистрируем интерес к записи, если очередь была пуста
+                clientChannel.register(selector, SelectionKey.OP_READ | SelectionKey.OP_WRITE);
+            }
+        } catch (IOException e) {
+            removeClient(clientChannel);
         }
     }
 
@@ -64,7 +92,9 @@ public class ServerNetworkService {
 
     public List<SelectionKey> processEvents() {
         try {
-            selector.select(100);
+            // Блокируемся до появления хотя бы одного события
+            selector.select();
+
             Iterator<SelectionKey> keys = selector.selectedKeys().iterator();
             List<SelectionKey> readyKeys = new ArrayList<>();
 
@@ -75,12 +105,13 @@ public class ServerNetworkService {
                 if (!key.isValid()) continue;
 
                 if (key.isAcceptable()) {
-                    handleAccept();
+                    handleAccept(key);
                 } else if (key.isReadable()) {
                     handleRead(key);
+                } else if (key.isWritable()) {
+                    handleWrite(key); // ← новая логика для асинхронной отправки
                 }
 
-                // Если после чтения к ключу прикрепился запрос — добавляем в список
                 if (key.attachment() instanceof CommandRequest) {
                     readyKeys.add(key);
                 }
@@ -92,23 +123,63 @@ public class ServerNetworkService {
         }
     }
 
-    private void handleAccept() throws IOException {
+    // Обработчик события записи
+    private void handleWrite(SelectionKey key) throws IOException {
+        SocketChannel clientChannel = (SocketChannel) key.channel();
+        ClientData client = clients.get(clientChannel);
+        if (client == null) {
+            key.cancel();
+            return;
+        }
+
+        synchronized (client.writeQueue) {
+            // Если нет текущего буфера, берём следующий из очереди
+            if (client.currentWriteBuffer == null) {
+                client.currentWriteBuffer = client.writeQueue.poll();
+            }
+
+            // Пишем, пока буфер не исчерпан или сокет не заблокируется
+            while (client.currentWriteBuffer != null && client.currentWriteBuffer.hasRemaining()) {
+                if (clientChannel.write(client.currentWriteBuffer) == -1) {
+                    removeClient(clientChannel);
+                    return;
+                }
+            }
+
+            // Если дописали — сбрасываем и проверяем очередь
+            if (client.currentWriteBuffer != null && !client.currentWriteBuffer.hasRemaining()) {
+                client.currentWriteBuffer = null;
+            }
+
+            // Если очередь пуста — отменяем интерес к записи
+            if (client.writeQueue.isEmpty() && client.currentWriteBuffer == null) {
+                key.interestOps(SelectionKey.OP_READ);
+            }
+        }
+    }
+
+
+    private void handleAccept(SelectionKey key) throws IOException {
+        ServerSocketChannel serverChannel = (ServerSocketChannel) key.channel();
         SocketChannel clientChannel = serverChannel.accept();
+
         if (clientChannel != null) {
             clientChannel.configureBlocking(false);
+            // Регистрируем только на чтение — запись по необходимости
             clientChannel.register(selector, SelectionKey.OP_READ);
             clients.put(clientChannel, new ClientData());
 
-            System.out.println("Клиент подключён: " + clientChannel.getRemoteAddress() +
-                    " (всего клиентов: " + clients.size() + ")");
+            System.out.println("Клиент подключён: " + clientChannel.getRemoteAddress());
 
-            // Отправляем клиенту карту команд при подключении
+            // Отправляем карту команд через очередь
             sendCommandsMap(clientChannel);
         }
     }
 
+
     private void sendCommandsMap(SocketChannel clientChannel) {
         try {
+            // 1. Формируем карту команд
             Map<String, CommandType> commandsMap = new HashMap<>();
             Map<String, Command> allCommands = commandsList.getCommandList();
 
@@ -118,21 +189,28 @@ public class ServerNetworkService {
                 commandsMap.put(commandName, command.getType());
             }
 
+            // 2. Создаём ответ
             CommandResponse initResponse = new CommandResponse(
                     true,
                     "connected",
                     commandsMap
             );
 
-            if (sendTo(clientChannel, initResponse)) {
-                System.out.println("Отправлена карта команд клиенту " + clientChannel.getRemoteAddress());
-                ClientData data = clients.get(clientChannel);
-                if (data != null) {
-                    data.initialized = true;
-                }
+            // 3. Ставим в очередь отправки (не блокируем поток!)
+            queueResponse(clientChannel, initResponse);
+
+            // 4. Помечаем клиента как инициализированного
+            //    (протокольно: мы "отправили", фактическая доставка — дело селектора)
+            ClientData data = clients.get(clientChannel);
+            if (data != null) {
+                data.initialized = true;
             }
+
+            System.out.println("Карта команд поставлена в очередь для " +
+                    clientChannel.getRemoteAddress());
+
         } catch (IOException e) {
-            System.out.println("Ошибка отправки карты команд: " + e.getMessage());
+            System.out.println("Ошибка подготовки карты команд: " + e.getMessage());
             removeClient(clientChannel);
         }
     }
@@ -254,14 +332,5 @@ public class ServerNetworkService {
         } catch (IOException e) {
             System.out.println("Ошибка при остановке сервера: " + e.getMessage());
         }
-    }
-
-    public Map<SocketChannel, ClientData> getClients() {
-        return clients;
-    }
-
-
-    public Selector getSelector() {
-        return selector;
     }
 }
