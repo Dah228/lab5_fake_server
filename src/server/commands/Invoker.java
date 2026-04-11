@@ -15,27 +15,48 @@ public class Invoker {
         commands.put(commandName, command);
     }
 
-    // ← Создаём CommandParams внутри и передаём команде
+    // Создаём CommandParams внутри и передаём команде
     public ReturnCode executeCommand(
             String commandName,
             List<String> args,
             Vehicle vehicle,
             Boolean isLaud,
-            NetworkResponseSender responseSender  // ← отправитель
+            NetworkResponseSender responseSender
     ) {
         Command command = commands.get(commandName);
 
-        if (command != null) {
-            try {
-                CommandParams params = new CommandParams(args, vehicle, isLaud, responseSender);
-                return command.execute(params);
-            } catch (Exception e) {
-                System.out.println("Ошибка типов " + commandName);
-                return ReturnCode.FAILED;
+        // 1. Команда не найдена
+        if (command == null) {
+            if (isLaud) {
+                responseSender.sendError("Неизвестная команда: " + commandName);
             }
+            return ReturnCode.FAILED;
         }
-        else{
-            System.out.println("Неизвестная команда " + commandName);
+
+        try {
+            CommandParams params = new CommandParams(args, vehicle, isLaud, responseSender);
+            ReturnCode result = command.execute(params);  //Команда только возвращает код
+
+            // 2. Автоматическая обработка результата
+            if (result == ReturnCode.FAILED && isLaud) {
+                responseSender.sendError("Команда '" + commandName + "' завершилась с ошибкой");
+            }
+
+            return result;
+
+        } catch (IllegalArgumentException e) {
+            // Ошибка валидации аргументов — всегда сообщаем клиенту
+            if (isLaud) {
+                responseSender.sendError("Неверные аргументы: " + e.getMessage());
+            }
+            return ReturnCode.FAILED;
+
+        } catch (Exception e) {
+            // Неожиданная ошибка — логируем на сервере, клиенту — общее сообщение
+            System.out.println("Ошибка выполнения " + commandName + ": " + e.getMessage());
+            if (isLaud) {
+                responseSender.sendError("Внутренняя ошибка сервера при выполнении команды");
+            }
             return ReturnCode.FAILED;
         }
     }
